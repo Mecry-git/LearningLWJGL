@@ -11,13 +11,10 @@ public class Main implements Runnable {
         game.start();
     }
 
-    Init init = new Init();
-    Loop loop = new Loop();
-    Window window = new Window();
     public void run() {
-        init.init("Game");
-        loop.loop();
-        window.destroy();
+        new Init().init("Game");
+        new Loop().loop();
+        new Window().destroy();
     }
 
     public static void main(String[] args) {
