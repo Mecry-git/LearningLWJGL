@@ -20,6 +20,7 @@ public class Input {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 keys[key] = action == GLFW_PRESS;
+                //print
                 System.out.println("key: " + key + " action: " + action);
             }
         };
@@ -28,6 +29,8 @@ public class Input {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 buttons[button] = action == GLFW_PRESS;
+                //print
+                System.out.println("key: " + button + " action: " + action);
             }
         };
 
@@ -36,6 +39,7 @@ public class Input {
             public void invoke(long window, double xpos, double ypos) {
                 mouseX = xpos;
                 mouseY = ypos;
+                //print
                 System.out.println(xpos + " | " + ypos);
             }
         };
