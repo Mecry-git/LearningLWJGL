@@ -1,4 +1,4 @@
-package Engine.io;
+package Engine.io.Input;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
@@ -7,21 +7,19 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Input {
-    private static boolean[] keys = new boolean[GLFW_KEY_LAST];
-    private static boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST];
+    private static final boolean[] keys = new boolean[GLFW_KEY_LAST];
+    private static final boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST];
     private static double mouseX, mouseY;
 
-    private static GLFWKeyCallback keyboard;
-    private static GLFWMouseButtonCallback mouseButtons;
-    private static GLFWCursorPosCallback mouseMove;
+    private static volatile GLFWKeyCallback keyboard;
+    private static volatile GLFWCursorPosCallback mouseMove;
+    private static volatile GLFWMouseButtonCallback mouseButtons;
 
-    public Input() {
+    public static void input() {
         keyboard = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 keys[key] = action == GLFW_PRESS;
-                //print
-                System.out.println("key: " + key + " action: " + action);
             }
         };
 
@@ -29,8 +27,6 @@ public class Input {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 buttons[button] = action == GLFW_PRESS;
-                //print
-                System.out.println("key: " + button + " action: " + action);
             }
         };
 
@@ -39,25 +35,10 @@ public class Input {
             public void invoke(long window, double xpos, double ypos) {
                 mouseX = xpos;
                 mouseY = ypos;
-                //print
-                System.out.println(xpos + " | " + ypos);
             }
         };
     }
 
-    public static boolean isKeyPressed(int key) {
-        return keys[key];
-    }
-    public static boolean isButtonPressed(int button) {
-        return buttons[button];
-    }
-
-    public static double getMouseX() {
-        return mouseX;
-    }
-    public static double getMouseY() {
-        return mouseY;
-    }
     public static GLFWKeyCallback getKeyboardKeyCallback() {
         return keyboard;
     }
@@ -66,6 +47,19 @@ public class Input {
     }
     public static GLFWMouseButtonCallback getMouseButtons() {
         return mouseButtons;
+    }
+
+    public static boolean isKeyPressed(int key) {
+        return keys[key];
+    }
+    public static boolean isButtonPressed(int button) {
+        return buttons[button];
+    }
+    public static double getMouseX() {
+        return mouseX;
+    }
+    public static double getMouseY() {
+        return mouseY;
     }
 
     public void destroy() {

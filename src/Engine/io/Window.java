@@ -1,5 +1,6 @@
 package Engine.io;
 
+import Engine.io.Input.Input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 
@@ -51,7 +52,7 @@ public class Window {
         glfwSetWindowPos(window, (videoMode.width() - size.width) / 2,
                 (videoMode.height() - size.height) / 2);
         glfwMakeContextCurrent(window);
-
+        Input.input();
         glfwSetKeyCallback(window, Input.getKeyboardKeyCallback());
         glfwSetMouseButtonCallback(window, Input.getMouseButtons());
         glfwSetCursorPosCallback(window, Input.getCursorPosCallback());

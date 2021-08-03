@@ -1,7 +1,7 @@
 package Main;
 
 import Engine.io.Window;
-import Render.*;
+import Render.Loop;
 
 public class Main implements Runnable {
     public Thread game;
