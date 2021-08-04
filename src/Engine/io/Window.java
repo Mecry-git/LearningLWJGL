@@ -26,6 +26,7 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate;
 public class Window {
     public static int frames;
     public static long time;
+    public static boolean shouldClose = false;
 
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final Dimension size = new Dimension(screenSize.width,
@@ -79,7 +80,9 @@ public class Window {
     }
 
     public boolean ifShouldClose() {
-        return glfwWindowShouldClose(window);
+        if (!shouldClose)
+            return glfwWindowShouldClose(window);
+        else return true;
     }
 
     public void destroy() {

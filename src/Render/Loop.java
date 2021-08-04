@@ -1,9 +1,6 @@
 package Render;
 
-import Engine.io.Input.Input;
 import Engine.io.Window;
-
-import static Engine.io.Input.InputActions.*;
 
 public class Loop {
     public void loop() {
@@ -11,12 +8,8 @@ public class Loop {
         Render render = new Render();
         Update update = new Update();
         while (!window.ifShouldClose()) {
-            update.update();
+            if (update.update()) return;
             render.render();
-            Input.input();
-            if (actionKeys()) return;
-            actionButtons();
-            actionCursorPos();
         }
     }
 }
