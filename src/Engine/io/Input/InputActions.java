@@ -8,24 +8,22 @@ import static Engine.io.Input.Input.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class InputActions {
-    public static void updateKeys() {
-    }
-    public static void updateButtons() {
-    }
-    public static void updateCursorPos() {
-    }
+    public static void updateKeys() {}
+    public static void updateButtons() {}
+    public static void updateCursorPos() {}
 
     public static void keysChanged(int key, int action) {
+        //Set ESC to close
         if (key == GLFW_KEY_ESCAPE ) {
             if (action == GLFW_PRESS) {
                 System.out.println("Pressed ESC! Release it to close game!");
             }
             if (action == GLFW_RELEASE) {
                 System.out.println("Close game!");
-                Window.shouldClose = true;
+                Window.setShouldClose(true);
             }
         }
-
+        //CMD print device part
         if (key == GLFW_KEY_F3) {
             if (action == GLFW_PRESS) {
                 System.out.println("F3 was pressed! Open the CMD print service. " +
@@ -54,10 +52,14 @@ public class InputActions {
                             You pressed "F3 + Control + Alt + H"! Open F3 help menu:\s
                             Press F3 to open CMD print service.\s
                             Press F3 and press other key to print their scancode and states.\s
-                            Press F3 and press mouse buttonsto print their states.\s
-                            Press F3 and move mouse to printmouse position.\s
+                            Press F3 and press mouse buttons to print their states.\s
+                            Press F3 and move mouse to print mouse position.\s
                             Release F3 to close CMD print service.\s""");
             }
+        }
+        //set F11 to setFullScreen
+        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) {
+            Window.changeFullScreen();
         }
     }
     public static void buttonsChanged(int button, int action) {

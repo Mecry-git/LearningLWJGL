@@ -12,7 +12,7 @@ public class Main implements Runnable {
     }
 
     public void run() {
-        new Init().init("Game");
+        new Init().init("Game", 1.0f, 0.0f, 0.0f);
         new Loop().loop();
         new Window().destroy();
     }
