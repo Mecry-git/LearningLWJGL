@@ -7,13 +7,8 @@ import static Engine.io.Input.InputActions.*;
 
 public class Update {
     Window window = new Window();
-    public boolean update() {
+    public void update() {
         window.update();
         Input.input();
-        updateKeys();
-        updateButtons();
-        updateCursorPos();
-
-        return false;
     }
 }

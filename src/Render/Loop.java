@@ -8,7 +8,7 @@ public class Loop {
         Render render = new Render();
         Update update = new Update();
         while (!window.ifShouldClose()) {
-            if (update.update()) return;
+            update.update();
             render.render();
         }
     }

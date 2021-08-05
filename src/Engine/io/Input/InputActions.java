@@ -8,10 +8,6 @@ import static Engine.io.Input.Input.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class InputActions {
-    public static void updateKeys() {}
-    public static void updateButtons() {}
-    public static void updateCursorPos() {}
-
     public static void keysChanged(int key, int action) {
         //Set ESC to close
         if (key == GLFW_KEY_ESCAPE ) {
@@ -19,7 +15,6 @@ public class InputActions {
                 System.out.println("Pressed ESC! Release it to close game!");
             }
             if (action == GLFW_RELEASE) {
-                System.out.println("Close game!");
                 Window.setShouldClose(true);
             }
         }

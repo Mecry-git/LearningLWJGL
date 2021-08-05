@@ -3,6 +3,7 @@ package Engine.io;
 import Engine.io.Input.Input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowPosCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -21,7 +22,6 @@ public class Window {
     private static String title;
     private static long window;
     private static boolean shouldClose;
-    private static boolean isResized;
     private static boolean isFullScreen;
     private static float bgcR, bgcG, bgcB;
 
@@ -43,10 +43,8 @@ public class Window {
 
         GLFWVidMode videoMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         assert videoMode != null;
-        System.out.println(videoMode.width() + " | " + videoMode.height());
         pos = new Point((videoMode.width() - size.width) / 2,
                 (videoMode.height() - size.height) / 2);
-        System.out.println(pos);
         glfwSetWindowPos(window, pos.x, pos.y);
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
@@ -57,12 +55,6 @@ public class Window {
     }
 
     public void update() {
-        if (isResized) {
-            GL11.glViewport(0, 0, size.width, size.height);
-            isResized = false;
-        }
-        glfwSetWindowMonitor(window, isFullScreen ? glfwGetPrimaryMonitor() : 0,
-                pos.x, pos.y, size.width, size.height, 0);
         GL11.glClearColor(bgcR, bgcG, bgcB, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
@@ -94,6 +86,8 @@ public class Window {
     }
 
     public void destroy() {
+        System.out.println("Close game!");
+
         new Input().destroy();
         glfwWindowShouldClose(window);
         glfwDestroyWindow(window);
@@ -105,7 +99,14 @@ public class Window {
             @Override
             public void invoke(long window, int width, int height) {
                 size = new Dimension(width, height);
-                isResized = true;
+                GL11.glViewport(0, 0, size.width, size.height);
+            }
+        };
+
+        GLFWWindowPosCallback posCallback = new GLFWWindowPosCallback() {
+            @Override
+            public void invoke(long window, int xPos, int yPos) {
+                if (!isFullScreen) pos = new Point(xPos, yPos);
             }
         };
 
@@ -113,19 +114,14 @@ public class Window {
         glfwSetMouseButtonCallback(window, Input.getMouseButtons());
         glfwSetCursorPosCallback(window, Input.getCursorPosCallback());
         glfwSetWindowSizeCallback(window, sizeCallback);
+        glfwSetWindowPosCallback(window, posCallback);
     }
 
-    public Dimension getSize() {
-        return size;
-    }
-    public static long getWindow() {
-        return window;
-    }
-    public static boolean isResized() {
-        return isResized;
-    }
     public static void changeFullScreen() {
+        glfwSetWindowMonitor(window, isFullScreen ? glfwGetPrimaryMonitor() : 0,
+                pos.x, pos.y, size.width, size.height, 0);
+
         isFullScreen = !isFullScreen;
-        isResized = true;
+        GL11.glViewport(0, 0, size.width, size.height);
     }
 }
