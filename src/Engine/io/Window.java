@@ -1,22 +1,21 @@
 package Engine.io;
 
-import Engine.io.Input.Input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.glfw.GLFWWindowPosCallback;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static Engine.io.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Window {
     public static int frames;
     public static long time;
     private static Point pos = new Point(100, 100);
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension screenSize =
+            Toolkit.getDefaultToolkit().getScreenSize();
     private static Dimension size = new Dimension(screenSize.width,
             screenSize.height);
     private static String title;
@@ -58,6 +57,7 @@ public class Window {
         GL11.glClearColor(bgcR, bgcG, bgcB, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
+
         frames ++;
         if (System.currentTimeMillis() > time + 1000) {
             glfwSetWindowTitle(window, title + " | FPS: " + frames);
@@ -76,6 +76,16 @@ public class Window {
         bgcB = b;
     }
 
+    private void setCallBacks() {
+        glfwSetKeyCallback(getWindow(), getKeyboardKeyCallback());
+        glfwSetCursorPosCallback(getWindow(), getCursorPosCallback());
+        glfwSetMouseButtonCallback(getWindow(), getMouseButtons());
+        glfwSetScrollCallback(getWindow(), getMouseScroll());
+
+        glfwSetWindowSizeCallback(getWindow(), getSizeCallback());
+        glfwSetWindowPosCallback(getWindow(), getPosCallback());
+    }
+
     public boolean ifShouldClose() {
         if (!shouldClose)
             return glfwWindowShouldClose(window);
@@ -85,36 +95,33 @@ public class Window {
         shouldClose = isShouldClose;
     }
 
+    public static long getWindow() {
+        return window;
+    }
+
+    public static Dimension getSize() {
+        return size;
+    }
+    public static void setSize(Dimension size) {
+        Window.size = size;
+    }
+
+    public static boolean getIsFullScreen() {
+        return isFullScreen;
+    }
+
+    public static void setPos(Point pos) {
+        Window.pos = pos;
+    }
+
     public void destroy() {
         System.out.println("Close game!");
 
-        new Input().destroy();
+        Callbacks.destroy();
+
         glfwWindowShouldClose(window);
         glfwDestroyWindow(window);
         glfwTerminate();
-    }
-
-    private void setCallBacks() {
-        GLFWWindowSizeCallback sizeCallback = new GLFWWindowSizeCallback() {
-            @Override
-            public void invoke(long window, int width, int height) {
-                size = new Dimension(width, height);
-                GL11.glViewport(0, 0, size.width, size.height);
-            }
-        };
-
-        GLFWWindowPosCallback posCallback = new GLFWWindowPosCallback() {
-            @Override
-            public void invoke(long window, int xPos, int yPos) {
-                if (!isFullScreen) pos = new Point(xPos, yPos);
-            }
-        };
-
-        glfwSetKeyCallback(window, Input.getKeyboardKeyCallback());
-        glfwSetMouseButtonCallback(window, Input.getMouseButtons());
-        glfwSetCursorPosCallback(window, Input.getCursorPosCallback());
-        glfwSetWindowSizeCallback(window, sizeCallback);
-        glfwSetWindowPosCallback(window, posCallback);
     }
 
     public static void changeFullScreen() {

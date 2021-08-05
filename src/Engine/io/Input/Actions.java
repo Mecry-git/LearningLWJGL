@@ -7,7 +7,7 @@ import java.awt.*;
 import static Engine.io.Input.Input.*;
 import static org.lwjgl.glfw.GLFW.*;
 
-public class InputActions {
+public class Actions {
     public static void keysChanged(int key, int action) {
         //Set ESC to close
         if (key == GLFW_KEY_ESCAPE ) {
