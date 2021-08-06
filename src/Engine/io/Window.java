@@ -24,15 +24,13 @@ public class Window {
     private static boolean isFullScreen;
     private static float bgcR, bgcG, bgcB;
 
-    public void window(String title) {
-        Window.title = title;
-    }
-
     public void create() {
+        //Initialize GLFW
         if (!glfwInit()) {
             throw new IllegalStateException("ERROR: Unable to initialize GLFW!");
         }
 
+        //Create a window
         window = glfwCreateWindow(size.width, size.height,
                 title + " | FPS: Loading...",
                 isFullScreen ? glfwGetPrimaryMonitor() : 0, 0);
@@ -40,30 +38,33 @@ public class Window {
             throw new IllegalStateException("ERROR: Failed to create a window!");
         }
 
+        //Let window go mid
         GLFWVidMode videoMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         assert videoMode != null;
         pos = new Point((videoMode.width() - size.width) / 2,
                 (videoMode.height() - size.height) / 2);
         glfwSetWindowPos(window, pos.x, pos.y);
+
+        //Window settings
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
         setCallBacks();
         glfwShowWindow(window);
         glfwSwapInterval(1);
+
+        //FrameTime setup
         time = System.currentTimeMillis();
     }
-
     public void update() {
         GL11.glClearColor(bgcR, bgcG, bgcB, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
 
-        frames ++;
-        if (System.currentTimeMillis() > time + 1000) {
-            glfwSetWindowTitle(window, title + " | FPS: " + frames);
-            time = System.currentTimeMillis();
-            frames = 0;
-        }
+        updateFrames();
+    }
+
+    public void setWindow(String title) {
+        Window.title = title;
     }
 
     public void swapBuffers() {
@@ -74,6 +75,15 @@ public class Window {
         bgcR = r;
         bgcG = g;
         bgcB = b;
+    }
+
+    public void updateFrames() {
+        frames ++;
+        if (System.currentTimeMillis() > time + 1000) {
+            glfwSetWindowTitle(window, title + " | FPS: " + frames);
+            time = System.currentTimeMillis();
+            frames = 0;
+        }
     }
 
     private void setCallBacks() {

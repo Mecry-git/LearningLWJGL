@@ -41,14 +41,15 @@ public class Actions {
                     isKeyPressed(GLFW_KEY_RIGHT_CONTROL)) &&
                     (isKeyPressed(GLFW_KEY_LEFT_ALT) ||
                             isKeyPressed(GLFW_KEY_RIGHT_ALT))) {
-                if (key == GLFW_KEY_H  &&  action == GLFW_PRESS)
-                    //If Press "F3 + Control + Alt + H"
-                    System.out.println("""
+                    if (key == GLFW_KEY_H  &&  action == GLFW_PRESS)
+                        //Press "F3 + Control + Alt + H"
+                        System.out.println("""
                             You pressed "F3 + Control + Alt + H"! Open F3 help menu:\s
                             Press F3 to open CMD print service.\s
                             Press F3 and press other key to print their scancode and states.\s
                             Press F3 and press mouse buttons to print their states.\s
                             Press F3 and move mouse to print mouse position.\s
+                            Press "F3 + C" to print mouseScroll.\s
                             Release F3 to close CMD print service.\s""");
             }
         }
@@ -78,6 +79,20 @@ public class Actions {
     }
     public static void cursorPosChanged(Point mousePos) {
         if (isKeyPressed(GLFW_KEY_F3))
-            System.out.println("MousePos: " + mousePos.x + " | " + mousePos.y);
+            System.out.println("MousePosition: " + mousePos.x + " | " + mousePos.y);
+    }
+    public static void mouseScrollChanged(Point mouseScrollPos) {
+        if (isKeyPressed(GLFW_KEY_F3) && isKeyPressed(GLFW_KEY_C)) {
+            //Press "F3 + C"
+            System.out.println("MouseScroll: " +
+                    mouseScrollPos.x + " | " + mouseScrollPos.y);
+
+            if (mouseScrollPos.y > 0)
+                System.out.println("MouseScroll turned up " +
+                        mouseScrollPos.y + " point(s)!");
+            if (mouseScrollPos.y < 0)
+                System.out.println("MouseScroll turned down " +
+                        -mouseScrollPos.y + " point(s)!");
+        }
     }
 }

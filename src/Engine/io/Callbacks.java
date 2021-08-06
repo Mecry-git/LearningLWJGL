@@ -62,8 +62,7 @@ public class Callbacks {
         setMouseScroll(new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double xOffset, double yOffset) {
-                setMouseScrollPos(new Point(getMouseScrollPos().x += xOffset,
-                        getMouseScrollPos().y += yOffset));
+                mouseScrollChanged(new Point((int)xOffset, (int)yOffset));
             }
         });
     }

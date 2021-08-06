@@ -7,8 +7,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Input {
     private static final boolean[] keys = new boolean[GLFW_KEY_LAST];
     private static final boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST];
-    private static Point mousePos;
-    private static Point mouseScrollPos;
+    private static Point mousePos = new Point(0, 0);
 
     public static void setKeys(int num, boolean key) {
         keys[num] = key;
@@ -29,12 +28,5 @@ public class Input {
     }
     public static void setMousePos(Point mousePos) {
         Input.mousePos = mousePos;
-    }
-
-    public static Point getMouseScrollPos() {
-        return mouseScrollPos;
-    }
-    public static void setMouseScrollPos(Point mouseScrollPos) {
-        Input.mouseScrollPos = mouseScrollPos;
     }
 }
