@@ -7,7 +7,7 @@ import java.awt.*;
 
 import static Engine.io.Input.Actions.*;
 import static org.lwjgl.glfw.GLFW.*;
-import static Engine.io.Window.*;
+import static Engine.io.Window.Window.*;
 import static Engine.io.Input.Input.*;
 
 public class Callbacks {
@@ -73,6 +73,12 @@ public class Callbacks {
     public static GLFWWindowPosCallback getPosCallback() {
         return posCallback;
     }
+    public static void setSizeCallback(GLFWWindowSizeCallback sizeCallback) {
+        Callbacks.sizeCallback = sizeCallback;
+    }
+    public static void setPosCallback(GLFWWindowPosCallback posCallback) {
+        Callbacks.posCallback = posCallback;
+    }
 
     public static GLFWKeyCallback getKeyboardKeyCallback() {
         return keyboard;
@@ -86,14 +92,6 @@ public class Callbacks {
     public static GLFWScrollCallback getMouseScroll() {
         return mouseScroll;
     }
-
-    public static void setSizeCallback(GLFWWindowSizeCallback sizeCallback) {
-        Callbacks.sizeCallback = sizeCallback;
-    }
-    public static void setPosCallback(GLFWWindowPosCallback posCallback) {
-        Callbacks.posCallback = posCallback;
-    }
-
     public static void setKeyboard(GLFWKeyCallback keyboard) {
         Callbacks.keyboard = keyboard;
     }

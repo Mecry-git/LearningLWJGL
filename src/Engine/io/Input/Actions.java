@@ -1,6 +1,7 @@
 package Engine.io.Input;
 
-import Engine.io.Window;
+import Engine.Maths.Vector3F;
+import Engine.io.Window.Window;
 
 import java.awt.*;
 
@@ -21,20 +22,20 @@ public class Actions {
         //CMD print device part
         if (key == GLFW_KEY_F3) {
             if (action == GLFW_PRESS) {
-                System.out.println("F3 was pressed! Open the CMD print service. " +
-                        "Help to press \"F3 + Control + Alt + H\" " +
+                System.out.println("F3 was pressed! Help to press " +
+                        "\"F3 + Control + Alt + H\" " +
                         "to open F3 help menu!");
             }
             if (action == GLFW_RELEASE) {
-                System.out.println("F3 was released! Close the CMD print service!");
+                System.out.println("F3 was released!");
             }
         }
         if (isKeyPressed(GLFW_KEY_F3)  &&  key != GLFW_KEY_F3) {
             if (action == GLFW_PRESS) {
-                System.out.println("Scancode " + key + " was pressed!");
+                System.out.println("The key which scancode " + key + " was pressed!");
             }
             if (action == GLFW_RELEASE) {
-                System.out.println("Scancode " + key + " was released!");
+                System.out.println("The key which scancode " + key + " was released!");
             }
 
             if ((isKeyPressed(GLFW_KEY_LEFT_CONTROL) ||
@@ -44,18 +45,37 @@ public class Actions {
                     if (key == GLFW_KEY_H  &&  action == GLFW_PRESS)
                         //Press "F3 + Control + Alt + H"
                         System.out.println("""
-                            You pressed "F3 + Control + Alt + H"! Open F3 help menu:\s
+                            You pressed "F3 + Control + Alt + H"! Help menu:\s
                             Press F3 to open CMD print service.\s
                             Press F3 and press other key to print their scancode and states.\s
                             Press F3 and press mouse buttons to print their states.\s
                             Press F3 and move mouse to print mouse position.\s
-                            Press "F3 + C" to print mouseScroll.\s
+                            Press F3 and turn mouseScroll to print mouseScroll state.\s
                             Release F3 to close CMD print service.\s""");
             }
         }
         //set F11 to setFullScreen
-        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) {
-            Window.changeFullScreen();
+        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) Window.changeFullScreen();
+
+        //set "F8 + R or B" to change bgc
+        if (key == GLFW_KEY_F8) {
+            if (action != GLFW_RELEASE) {
+                if (action == GLFW_PRESS)
+                    System.out.println("F8 was Pressed! Press \"F8 + C\" to " +
+                            "change background color!(Black or red)");
+            }
+            if (action == GLFW_RELEASE)
+                System.out.println("F8 was Released!");
+        }
+        if (isKeyPressed(GLFW_KEY_F8)) {
+            if (key == GLFW_KEY_C  &&  action == GLFW_PRESS)
+                if (Window.isBgcBlack()) {
+                    System.out.println("Change background to red!");
+                    Window.setBgc(new Vector3F(1.0f, 0.0f, 0.0f));
+                } else {
+                    System.out.println("Change background to black!");
+                    Window.setBgc(new Vector3F());
+                }
         }
     }
     public static void buttonsChanged(int button, int action) {
@@ -82,11 +102,7 @@ public class Actions {
             System.out.println("MousePosition: " + mousePos.x + " | " + mousePos.y);
     }
     public static void mouseScrollChanged(Point mouseScrollPos) {
-        if (isKeyPressed(GLFW_KEY_F3) && isKeyPressed(GLFW_KEY_C)) {
-            //Press "F3 + C"
-            System.out.println("MouseScroll: " +
-                    mouseScrollPos.x + " | " + mouseScrollPos.y);
-
+        if (isKeyPressed(GLFW_KEY_F3)) {
             if (mouseScrollPos.y > 0)
                 System.out.println("MouseScroll turned up " +
                         mouseScrollPos.y + " point(s)!");

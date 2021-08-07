@@ -1,5 +1,10 @@
-package Engine.io;
+package Engine.io.Window;
 
+import Engine.Graphics.Mesh;
+import Engine.Graphics.Renderer;
+import Engine.Maths.Vector3F;
+import Engine.io.Callbacks;
+import Main.Main;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -20,9 +25,12 @@ public class Window {
             screenSize.height);
     private static String title;
     private static long window;
-    private static boolean shouldClose;
+    private static Vector3F bgc = new Vector3F();
     private static boolean isFullScreen;
-    private static float bgcR, bgcG, bgcB;
+    private static boolean shouldClose;
+
+    private final Renderer renderer = new Renderer();
+    private final Mesh mesh = new Mesh(Main.vertices, Main.indices);
 
     public void create() {
         //Initialize GLFW
@@ -45,39 +53,50 @@ public class Window {
                 (videoMode.height() - size.height) / 2);
         glfwSetWindowPos(window, pos.x, pos.y);
 
-        //Window settings
+        //Make the OpenGL context
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+
+        //Window settings
         setCallBacks();
         glfwShowWindow(window);
         glfwSwapInterval(1);
 
         //FrameTime setup
         time = System.currentTimeMillis();
+
+        //Create mesh
+        mesh.create();
     }
     public void update() {
-        GL11.glClearColor(bgcR, bgcG, bgcB, 1.0f);
+        //Render
+        renderer.renderMesh(mesh);
+        glfwSwapBuffers(window);
+
+        //Window update
+        GL11.glClearColor(bgc.x, bgc.y, bgc.z, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
         glfwPollEvents();
 
         updateFrames();
+
+        //Update callbacks
+        Callbacks.updateCallBacks();
     }
 
-    public void setWindow(String title) {
+    public static void setWindowTitle(String title) {
         Window.title = title;
     }
 
-    public void swapBuffers() {
-        glfwSwapBuffers(window);
+    public static boolean isBgcBlack() {
+        return bgc.x == 0.0f  &&  bgc.y == 0.0f  &&  bgc.z == 0.0f;
+    }
+    public static void setBgc(Vector3F bgc) {
+        Window.bgc = bgc;
     }
 
-    public void setBgc(float r, float g, float b) {
-        bgcR = r;
-        bgcG = g;
-        bgcB = b;
-    }
-
-    public void updateFrames() {
+    public static void updateFrames() {
         frames ++;
         if (System.currentTimeMillis() > time + 1000) {
             glfwSetWindowTitle(window, title + " | FPS: " + frames);
@@ -86,7 +105,7 @@ public class Window {
         }
     }
 
-    private void setCallBacks() {
+    private static void setCallBacks() {
         glfwSetKeyCallback(getWindow(), getKeyboardKeyCallback());
         glfwSetCursorPosCallback(getWindow(), getCursorPosCallback());
         glfwSetMouseButtonCallback(getWindow(), getMouseButtons());
@@ -96,7 +115,7 @@ public class Window {
         glfwSetWindowPosCallback(getWindow(), getPosCallback());
     }
 
-    public boolean ifShouldClose() {
+    public static boolean ifShouldClose() {
         if (!shouldClose)
             return glfwWindowShouldClose(window);
         else return true;
