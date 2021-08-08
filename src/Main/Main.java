@@ -4,9 +4,13 @@ import Engine.Graphics.Vertex;
 import Engine.io.Window.Init;
 import Engine.io.Window.Window;
 import Engine.Maths.Vector3F;
+import org.lwjgl.Version;
 
 public class Main implements Runnable{
     public Thread mainThread;
+
+    public static String vertexFilePath = "/Shaders/MainVertex.glsl";
+    public static String fragmentFilePath = "/Shaders/MainFragment.glsl";
 
     public static Vertex[] vertices = new Vertex[] {
             new Vertex(new Vector3F(-0.5f,  0.5f, 0.0f)),

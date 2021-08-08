@@ -10,15 +10,8 @@ import static org.lwjgl.opengl.GL30.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public class Mesh {
-    private final Vertex[] vertices;
-    private final int[] indices;
-    private int vao, pbo, ibo;
-
-    public Mesh(Vertex[] vertices, int[] indices) {
-        this.vertices = vertices;
-        this.indices = indices;
-    }
+public record Mesh(Vertex[] vertices, int[] indices) {
+    private static int vao, pbo, ibo;
 
     public void create() {
         vao = glGenVertexArrays();

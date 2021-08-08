@@ -8,6 +8,5 @@ public class Init {
         Window.setWindowTitle(windowTitle);
         Window window = new Window();
         window.create();
-
     }
 }

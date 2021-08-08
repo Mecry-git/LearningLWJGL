@@ -2,6 +2,7 @@ package Engine.io.Window;
 
 import Engine.Graphics.Mesh;
 import Engine.Graphics.Renderer;
+import Engine.Graphics.Shader;
 import Engine.Maths.Vector3F;
 import Engine.io.Callbacks;
 import Main.Main;
@@ -29,22 +30,21 @@ public class Window {
     private static boolean isFullScreen;
     private static boolean shouldClose;
 
-    private final Renderer renderer = new Renderer();
+    private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
+    private static final Renderer renderer = new Renderer(shader);
     private final Mesh mesh = new Mesh(Main.vertices, Main.indices);
 
     public void create() {
         //Initialize GLFW
-        if (!glfwInit()) {
+        if (!glfwInit())
             throw new IllegalStateException("ERROR: Unable to initialize GLFW!");
-        }
 
         //Create a window
         window = glfwCreateWindow(size.width, size.height,
                 title + " | FPS: Loading...",
                 isFullScreen ? glfwGetPrimaryMonitor() : 0, 0);
-        if (window == 0) {
+        if (window == 0)
             throw new IllegalStateException("ERROR: Failed to create a window!");
-        }
 
         //Let window go mid
         GLFWVidMode videoMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
@@ -67,6 +67,7 @@ public class Window {
 
         //Create mesh
         mesh.create();
+        shader.create();
     }
     public void update() {
         //Render
@@ -76,7 +77,6 @@ public class Window {
         //Window update
         GL11.glClearColor(bgc.x, bgc.y, bgc.z, 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
         glfwPollEvents();
 
         updateFrames();
@@ -146,6 +146,7 @@ public class Window {
     public void destroy() {
         System.out.println("Close game!");
 
+        shader.destroy();
         Callbacks.destroy();
 
         glfwWindowShouldClose(window);
