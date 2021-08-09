@@ -4,7 +4,6 @@ import Engine.Graphics.Vertex;
 import Engine.io.Window.Init;
 import Engine.io.Window.Window;
 import Engine.Maths.Vector3F;
-import org.lwjgl.Version;
 
 public class Main implements Runnable{
     public Thread mainThread;
