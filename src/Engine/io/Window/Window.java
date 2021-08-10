@@ -32,7 +32,11 @@ public class Window {
 
     private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private static final Renderer renderer = new Renderer(shader);
-    private final Mesh mesh = new Mesh(Main.vertices, Main.indices);
+    private static final Mesh mesh = new Mesh(Main.vertices, Main.indices);
+
+    public Window(String title) {
+        setWindowTitle(title);
+    }
 
     public void create() {
         //Initialize GLFW
@@ -69,6 +73,7 @@ public class Window {
         mesh.create();
         shader.create();
     }
+
     public void update() {
         //Render
         renderer.renderMesh(mesh);
@@ -82,21 +87,21 @@ public class Window {
         updateFrames();
 
         //Update callbacks
-        Callbacks.updateCallBacks();
+        Callbacks.updateCallbacks();
     }
 
-    public static void setWindowTitle(String title) {
+    public void setWindowTitle(String title) {
         Window.title = title;
     }
 
     public static boolean isBgcBlack() {
         return bgc.x == 0.0f  &&  bgc.y == 0.0f  &&  bgc.z == 0.0f;
     }
-    public static void setBgc(Vector3F bgc) {
+    public void setBgc(Vector3F bgc) {
         Window.bgc = bgc;
     }
 
-    public static void updateFrames() {
+    public void updateFrames() {
         frames ++;
         if (System.currentTimeMillis() > time + 1000) {
             glfwSetWindowTitle(window, title + " | FPS: " + frames);
@@ -105,7 +110,7 @@ public class Window {
         }
     }
 
-    private static void setCallBacks() {
+    private void setCallBacks() {
         glfwSetKeyCallback(getWindow(), getKeyboardKeyCallback());
         glfwSetCursorPosCallback(getWindow(), getCursorPosCallback());
         glfwSetMouseButtonCallback(getWindow(), getMouseButtons());
@@ -115,31 +120,31 @@ public class Window {
         glfwSetWindowPosCallback(getWindow(), getPosCallback());
     }
 
-    public static boolean ifShouldClose() {
+    public boolean ifShouldClose() {
         if (!shouldClose)
             return glfwWindowShouldClose(window);
         else return true;
     }
-    public static void setShouldClose(boolean isShouldClose) {
+    public void setShouldClose(boolean isShouldClose) {
         shouldClose = isShouldClose;
     }
 
-    public static long getWindow() {
+    public long getWindow() {
         return window;
     }
 
-    public static Dimension getSize() {
+    public Dimension getSize() {
         return size;
     }
-    public static void setSize(Dimension size) {
+    public void setSize(Dimension size) {
         Window.size = size;
     }
 
-    public static boolean getIsFullScreen() {
+    public boolean getIsFullScreen() {
         return isFullScreen;
     }
 
-    public static void setPos(Point pos) {
+    public void setPos(Point pos) {
         Window.pos = pos;
     }
 
@@ -154,7 +159,7 @@ public class Window {
         glfwTerminate();
     }
 
-    public static void changeFullScreen() {
+    public void changeFullScreen() {
         glfwSetWindowMonitor(window, isFullScreen ? glfwGetPrimaryMonitor() : 0,
                 pos.x, pos.y, size.width, size.height, 0);
 

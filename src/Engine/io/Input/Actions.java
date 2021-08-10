@@ -6,6 +6,7 @@ import Engine.io.Window.Window;
 import java.awt.*;
 
 import static Engine.io.Input.Input.*;
+import static Main.Main.window;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Actions {
@@ -16,7 +17,7 @@ public class Actions {
                 System.out.println("Pressed ESC! Release it to close game!");
             }
             if (action == GLFW_RELEASE) {
-                Window.setShouldClose(true);
+                window.setShouldClose(true);
             }
         }
         //CMD print device part
@@ -55,7 +56,7 @@ public class Actions {
             }
         }
         //set F11 to setFullScreen
-        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) Window.changeFullScreen();
+        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) window.changeFullScreen();
 
         //set "F8 + R or B" to change bgc
         if (key == GLFW_KEY_F8) {
@@ -71,10 +72,10 @@ public class Actions {
             if (key == GLFW_KEY_C  &&  action == GLFW_PRESS)
                 if (Window.isBgcBlack()) {
                     System.out.println("Change background to red!");
-                    Window.setBgc(new Vector3F(1.0f, 0.0f, 0.0f));
+                    window.setBgc(new Vector3F(1.0f, 0.0f, 0.0f));
                 } else {
                     System.out.println("Change background to black!");
-                    Window.setBgc(new Vector3F());
+                    window.setBgc(new Vector3F());
                 }
         }
     }

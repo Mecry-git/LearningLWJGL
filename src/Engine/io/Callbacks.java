@@ -7,7 +7,6 @@ import java.awt.*;
 
 import static Engine.io.Input.Actions.*;
 import static org.lwjgl.glfw.GLFW.*;
-import static Engine.io.Window.Window.*;
 import static Engine.io.Input.Input.*;
 
 public class Callbacks {
@@ -19,19 +18,24 @@ public class Callbacks {
     private static volatile GLFWMouseButtonCallback mouseButtons;
     private static GLFWScrollCallback mouseScroll;
 
-    public static void updateCallBacks() {
+    public static void initCallbacks() {
+        updateCallbacks();
+    }
+    public static void updateCallbacks() {
         setSizeCallback(new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
-                setSize(new Dimension(width, height));
-                GL11.glViewport(0, 0, getSize().width, getSize().height);
+                Main.Main.window.setSize(new Dimension(width, height));
+                GL11.glViewport(0, 0, Main.Main.window.getSize().width,
+                        Main.Main.window.getSize().height);
             }
         });
 
         setPosCallback(new GLFWWindowPosCallback() {
             @Override
             public void invoke(long window, int xPos, int yPos) {
-                if (!getIsFullScreen()) setPos(new Point(xPos, yPos));
+                if (!Main.Main.window.getIsFullScreen())
+                    Main.Main.window.setPos(new Point(xPos, yPos));
             }
         });
 

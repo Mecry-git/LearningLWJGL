@@ -20,9 +20,9 @@ public record Mesh(Vertex[] vertices, int[] indices) {
         FloatBuffer posBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
         float[] posData = new float[vertices.length * 3];
         for (int i = 0; i < vertices.length; i++) {
-            posData[i * 3] = vertices[i].getPos().x;
-            posData[i * 3 + 1] = vertices[i].getPos().y;
-            posData[i * 3 + 2] = vertices[i].getPos().z;
+            posData[i * 3] = vertices[i].pos.x;
+            posData[i * 3 + 1] = vertices[i].pos.y;
+            posData[i * 3 + 2] = vertices[i].pos.z;
         }
         posBuffer.put(posData).flip();
 
