@@ -14,32 +14,36 @@ public record Mesh(Vertex[] vertices, int[] indices) {
     private static int vao, ibo;
 
     public void create() {
-        vao = glGenVertexArrays();
-        glBindVertexArray(vao);
+        FloatBuffer posBuffer = null;
+        IntBuffer indicesBuffer = null;
+        try {
+            vao = glGenVertexArrays();
+            glBindVertexArray(vao);
 
-        FloatBuffer posBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
-        float[] posData = new float[vertices.length * 3];
-        for (int i = 0; i < vertices.length; i++) {
-            posData[i * 3] = vertices[i].pos.x;
-            posData[i * 3 + 1] = vertices[i].pos.y;
-            posData[i * 3 + 2] = vertices[i].pos.z;
+            int pbo = glGenBuffers();
+            posBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
+            posBuffer.put(new Vertex().getFloatArray(vertices)).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, pbo);
+            glBufferData(GL_ARRAY_BUFFER, posBuffer, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+
+            ibo = glGenBuffers();
+            indicesBuffer = MemoryUtil.memAllocInt(indices.length);
+            indicesBuffer.put(indices).flip();
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+        } finally {
+            if (posBuffer != null) {
+                MemoryUtil.memFree(posBuffer);
+            }
+            if (indicesBuffer != null) {
+                MemoryUtil.memFree(indicesBuffer);
+            }
         }
-        posBuffer.put(posData).flip();
-
-        int pbo = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, pbo);
-        glBufferData(GL_ARRAY_BUFFER, posData, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT,
-                false, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        IntBuffer indBuffer = MemoryUtil.memAllocInt(indices.length);
-        indBuffer.put(indices).flip();
-
-        ibo = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indBuffer, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     public int[] getIndices() {
@@ -47,8 +51,5 @@ public record Mesh(Vertex[] vertices, int[] indices) {
     }
     public int getVAO() {
         return vao;
-    }
-    public int getIBO() {
-        return ibo;
     }
 }

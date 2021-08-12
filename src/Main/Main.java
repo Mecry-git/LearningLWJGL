@@ -7,7 +7,7 @@ import Engine.io.Window.Window;
 public class Main implements Runnable{
     public Thread mainThread;
 
-    public static Vertex[] vertices = new Vertex().floatArray(new float[] {
+    public static Vertex[] vertices = new Vertex().toFloatArray(new float[] {
             -0.5f,  0.5f,  0.0f,   0.5f,  0.5f,  0.0f,
             0.5f, -0.5f,  0.0f,  -0.5f, -0.5f,  0.0f
     });
