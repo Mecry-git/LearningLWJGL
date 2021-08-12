@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public record Mesh(Vertex[] vertices, int[] indices) {
-    private static int vao, ibo;
+    public static int vao;
 
     public void create() {
         FloatBuffer posBuffer = null;
@@ -28,7 +28,7 @@ public record Mesh(Vertex[] vertices, int[] indices) {
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
-            ibo = glGenBuffers();
+            int ibo = glGenBuffers();
             indicesBuffer = MemoryUtil.memAllocInt(indices.length);
             indicesBuffer.put(indices).flip();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -48,8 +48,5 @@ public record Mesh(Vertex[] vertices, int[] indices) {
 
     public int[] getIndices() {
         return indices;
-    }
-    public int getVAO() {
-        return vao;
     }
 }
