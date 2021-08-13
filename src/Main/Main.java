@@ -1,6 +1,5 @@
 package Main;
 
-import Engine.Graphics.Material;
 import Engine.Graphics.Vertex;
 import Engine.io.Window.Init;
 import Engine.io.Window.Window;
@@ -9,13 +8,13 @@ public class Main implements Runnable{
     public Thread mainThread;
 
     public static Vertex[] vertices = new Vertex().toFloatArray(new float[] {
-            -1.0f,  1.0f,  0.0f,    1.0f,  1.0f,  0.0f,
-             1.0f, -1.0f,  0.0f,   -1.0f, -1.0f,  0.0f
+            -1f,  1f,  0f,   1f,  1f, 0f,
+             1f, -1f,  0f,  -1f, -1f, 0f
     }, new float[] {
-            0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 0.0f
-    }, new int[] {
-             0, 0,   0, 1,   1, 1,   1, 0
+            0f, 0f, 0f,  0f, 0f, 0f,
+            0f, 0f, 0f,  0f, 0f, 0f
+    }, new float[] {
+             0f, 0f,  0f, 1f,  1f, 1f,  1f, 0f
     });
     public static int[] indices = new int[] {
             0, 1, 2,  0, 2, 3

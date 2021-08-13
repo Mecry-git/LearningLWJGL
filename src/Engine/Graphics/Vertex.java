@@ -42,7 +42,7 @@ public class Vertex {
         }
         return fTargets;
     }
-    public Vertex[] toFloatArray(float[] poses, float[] cols, int[] tex) {
+    public Vertex[] toFloatArray(float[] poses, float[] cols, float[] tex) {
         Vertex[] vTargets = new Vertex[poses.length / 3];
         for (int i = 0; i < vTargets.length; i ++) {
             vTargets[i] = new Vertex();
