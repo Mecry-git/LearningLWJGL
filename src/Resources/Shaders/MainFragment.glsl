@@ -1,7 +1,12 @@
 #version 330 core
 
+in vec3 passCol;
+in vec2 passTex;
+
 out vec4 outColor;
 
+uniform sampler2D tex;
+
 void main() {
-    outColor = vec4(1.0, 1.0, 1.0, 1.0);
+    outColor = texture(tex, passTex);
 }

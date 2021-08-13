@@ -11,7 +11,7 @@ public class FileUtils {
 
         InputStream resources = FileUtils.class.getResourceAsStream(path);
         if (resources == null)
-            throw new IllegalStateException("ERROR: Unable to get resources path: " + path);
+            throw new IllegalStateException("\nERROR: Unable to get resource path: " + path);
 
         try (BufferedReader reader = new BufferedReader
                 (new InputStreamReader(resources))) {

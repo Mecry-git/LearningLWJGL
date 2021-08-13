@@ -17,14 +17,14 @@ public record Shader(String vFP, String fFP) {
         glShaderSource(vID, vF);
         glCompileShader(vID);
         if (glGetShaderi(vID, GL_COMPILE_STATUS) == GL_FALSE)
-            throw new IllegalStateException("SHADER ERROR: Vertex Shader: " +
+            throw new IllegalStateException("\nSHADER ERROR: Vertex Shader: " +
                     glGetShaderInfoLog(vID));
 
         int fID = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fID, fF);
         glCompileShader(fID);
         if (glGetShaderi(fID, GL_COMPILE_STATUS) == GL_FALSE)
-            throw new IllegalStateException("SHADER ERROR: Fragment Shader: " +
+            throw new IllegalStateException("\nSHADER ERROR: Fragment Shader: " +
                     glGetShaderInfoLog(fID));
 
         glAttachShader(pID, vID);
@@ -32,12 +32,12 @@ public record Shader(String vFP, String fFP) {
 
         glLinkProgram(pID);
         if (glGetProgrami(pID, GL_LINK_STATUS) == GL_FALSE)
-            throw new IllegalStateException("SHADER ERROR: Program Linking: " +
+            throw new IllegalStateException("\nSHADER ERROR: Program Linking: " +
                     glGetShaderInfoLog(pID));
 
         glValidateProgram(pID);
         if (glGetProgrami(pID, GL_VALIDATE_STATUS) == GL_FALSE)
-            throw new IllegalStateException("SHADER ERROR: Program Validating: " +
+            throw new IllegalStateException("\nSHADER ERROR: Program Validating: " +
                     glGetShaderInfoLog(pID));
 
         glDeleteShader(vID);

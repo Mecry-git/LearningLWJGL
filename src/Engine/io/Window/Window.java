@@ -1,5 +1,6 @@
 package Engine.io.Window;
 
+import Engine.Graphics.Material;
 import Engine.Graphics.Mesh;
 import Engine.Graphics.Renderer;
 import Engine.Graphics.Shader;
@@ -32,7 +33,8 @@ public class Window {
 
     private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private static final Renderer renderer = new Renderer(shader);
-    private static final Mesh mesh = new Mesh(Main.vertices, Main.indices);
+    private static final Mesh mesh = new Mesh(Main.vertices, Main.indices,
+            new Material(Main.textureFilePath));
 
     public Window(String title) {
         setWindowTitle(title);
@@ -41,14 +43,14 @@ public class Window {
     public void create() {
         //Initialize GLFW
         if (!glfwInit())
-            throw new IllegalStateException("ERROR: Unable to initialize GLFW!");
+            throw new IllegalStateException("\nERROR: Unable to initialize GLFW!");
 
         //Create a window
         window = glfwCreateWindow(size.width, size.height,
                 title + " | FPS: Loading...",
                 isFullScreen ? glfwGetPrimaryMonitor() : 0, 0);
         if (window == 0)
-            throw new IllegalStateException("ERROR: Failed to create a window!");
+            throw new IllegalStateException("\nERROR: Failed to create a window!");
 
         //Let window go mid
         GLFWVidMode videoMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
@@ -148,22 +150,23 @@ public class Window {
         Window.pos = pos;
     }
 
-    public void destroy() {
-        System.out.println("Close game!");
-
-        shader.destroy();
-        Callbacks.destroy();
-
-        glfwWindowShouldClose(window);
-        glfwDestroyWindow(window);
-        glfwTerminate();
-    }
-
     public void changeFullScreen() {
         glfwSetWindowMonitor(window, isFullScreen ? glfwGetPrimaryMonitor() : 0,
                 pos.x, pos.y, size.width, size.height, 0);
 
         isFullScreen = !isFullScreen;
         GL11.glViewport(0, 0, size.width, size.height);
+    }
+
+    public void destroy() {
+        System.out.println("Close game!");
+
+        mesh.destroy();
+        shader.destroy();
+        Callbacks.destroy();
+
+        glfwWindowShouldClose(window);
+        glfwDestroyWindow(window);
+        glfwTerminate();
     }
 }
