@@ -7,19 +7,19 @@ import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class TextureLoader {
-    private static final int BYTES_PER_PIXEL = 4;
-
-    public static int getTextureID(BufferedImage image) {
+    public int getTextureID(@NotNull BufferedImage image) {
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels,
                 0, image.getWidth());
 
+        int BYTES_PER_PIXEL = 4;
         ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() *
                 image.getHeight() * BYTES_PER_PIXEL);
 
@@ -48,7 +48,7 @@ public class TextureLoader {
         return textureID;
     }
 
-    public static BufferedImage getTextureAsBI(String path) {
+    public BufferedImage getTextureAsBI(String path) {
         URL image = TextureLoader.class.getResource(path);
         if (image == null)
             throw new IllegalStateException("\nERROR: Unable to loadImage, path: " + path);

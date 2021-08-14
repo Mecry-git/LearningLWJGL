@@ -6,8 +6,6 @@ import org.lwjgl.opengl.GL13;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static Engine.Utils.TextureLoader.getTextureID;
-
 public class Material {
     private final String path;
     public Dimension size;
@@ -18,10 +16,10 @@ public class Material {
     }
 
     public void create() {
-        BufferedImage texture = TextureLoader.getTextureAsBI(path);
+        BufferedImage texture = new TextureLoader().getTextureAsBI(path);
 
         size = new Dimension(texture.getWidth(), texture.getHeight());
-        textureID = getTextureID(texture);
+        textureID = new TextureLoader().getTextureID(texture);
     }
 
     public void Destroy() {

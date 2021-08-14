@@ -1,4 +1,4 @@
-package Engine.io;
+package Engine.io.Input;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
@@ -34,8 +34,7 @@ public class Callbacks {
         setPosCallback(new GLFWWindowPosCallback() {
             @Override
             public void invoke(long window, int xPos, int yPos) {
-                if (!Main.Main.window.getIsFullScreen())
-                    Main.Main.window.setPos(new Point(xPos, yPos));
+                Main.Main.window.setPos(new Point(xPos, yPos));
             }
         });
 

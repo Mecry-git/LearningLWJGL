@@ -56,7 +56,7 @@ public class Actions {
             }
         }
         //set F11 to setFullScreen
-        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) window.changeFullScreen();
+        if (key == GLFW_KEY_F11  &&  action == GLFW_PRESS) window.chFS();
 
         //set "F8 + R or B" to change bgc
         if (key == GLFW_KEY_F8) {

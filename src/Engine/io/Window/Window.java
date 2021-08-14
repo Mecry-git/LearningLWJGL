@@ -5,7 +5,7 @@ import Engine.Graphics.Mesh;
 import Engine.Graphics.Renderer;
 import Engine.Graphics.Shader;
 import Engine.Maths.Vector3F;
-import Engine.io.Callbacks;
+import Engine.io.Input.Callbacks;
 import Main.Main;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -14,21 +14,22 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
-import static Engine.io.Callbacks.*;
+import static Engine.io.Input.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Window {
     public static int frames;
     public static long time;
     private static Point pos = new Point(100, 100);
-    private static final Dimension screenSize =
+    private static Point lastPos;
+    private static final Dimension SCREEN_SIZE =
             Toolkit.getDefaultToolkit().getScreenSize();
-    private static Dimension size = new Dimension(screenSize.width,
-            screenSize.height);
+    private static Dimension size = new Dimension(SCREEN_SIZE.width,
+            SCREEN_SIZE.height);
     private static String title;
     private static long window;
     private static Vector3F bgc = new Vector3F();
-    private static boolean isFullScreen;
+    private static boolean isFS;
     private static boolean shouldClose;
 
     private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
@@ -48,15 +49,17 @@ public class Window {
         //Create a window
         window = glfwCreateWindow(size.width, size.height,
                 title + " | FPS: Loading...",
-                isFullScreen ? glfwGetPrimaryMonitor() : 0, 0);
+                isFS ? glfwGetPrimaryMonitor() : 0, 0);
         if (window == 0)
             throw new IllegalStateException("\nERROR: Failed to create a window!");
 
         //Let window go mid
         GLFWVidMode videoMode = glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         assert videoMode != null;
+
         pos = new Point((videoMode.width() - size.width) / 2,
                 (videoMode.height() - size.height) / 2);
+        lastPos = pos;
         glfwSetWindowPos(window, pos.x, pos.y);
 
         //Make the OpenGL context
@@ -97,7 +100,7 @@ public class Window {
     }
 
     public static boolean isBgcBlack() {
-        return bgc.x == 0.0f  &&  bgc.y == 0.0f  &&  bgc.z == 0.0f;
+        return bgc.x == 0f  &&  bgc.y == 0f  &&  bgc.z == 0f;
     }
     public void setBgc(Vector3F bgc) {
         Window.bgc = bgc;
@@ -142,19 +145,25 @@ public class Window {
         Window.size = size;
     }
 
-    public boolean getIsFullScreen() {
-        return isFullScreen;
-    }
-
+    private static boolean isSgFS;
     public void setPos(Point pos) {
+        if (pos.equals(new Point()))
+            if (isSgFS) lastPos = Window.pos;
+            else pos = lastPos;
         Window.pos = pos;
+        isSgFS = false;
     }
+    public void chFS() {
+        if (isFS) glfwSetWindowMonitor(window, 0, pos.x, pos.y,
+                size.width, size.height, 0);
+        else {
+            isSgFS = true;
+            setPos(new Point());
+            glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), pos.x, pos.y,
+                    SCREEN_SIZE.width, SCREEN_SIZE.height, 0);
+        }
 
-    public void changeFullScreen() {
-        glfwSetWindowMonitor(window, isFullScreen ? glfwGetPrimaryMonitor() : 0,
-                pos.x, pos.y, size.width, size.height, 0);
-
-        isFullScreen = !isFullScreen;
+        isFS = !isFS;
         GL11.glViewport(0, 0, size.width, size.height);
     }
 

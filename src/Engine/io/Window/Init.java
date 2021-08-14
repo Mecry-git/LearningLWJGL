@@ -1,6 +1,6 @@
 package Engine.io.Window;
 
-import Engine.io.Callbacks;
+import Engine.io.Input.Callbacks;
 
 import static Main.Main.window;
 
