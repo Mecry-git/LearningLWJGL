@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class TextureLoader {
     public int getTextureID(@NotNull BufferedImage image) {
-        image = fixImage(image);
+        //image = fixImage(image);
 
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(),
@@ -52,12 +52,12 @@ public class TextureLoader {
 
         return textureID;
     }
-    private BufferedImage fixImage(BufferedImage image) {
-        Image iImg = ImageRotate.imageMisro(ImageRotate.BufferedImageToImage(image));
-        iImg = ImageRotate.rotateImage90(iImg);
+    private @NotNull BufferedImage fixImage(BufferedImage image) {
+        Image iImg = ImageFixer.imageMisro(ImageFixer.BufferedImageToImage(image));
+        iImg = ImageFixer.rotateImage90(iImg);
         if (iImg == null)
             throw new IllegalStateException("\nERROR: TEXTURE: Failed to edit image!");
-        image = ImageRotate.ImageToBufferedImage(iImg);
+        image = ImageFixer.ImageToBufferedImage(iImg);
 
         return image;
     }

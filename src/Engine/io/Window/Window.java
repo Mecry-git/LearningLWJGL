@@ -4,9 +4,13 @@ import Engine.Graphics.Material;
 import Engine.Graphics.Mesh;
 import Engine.Graphics.Renderer;
 import Engine.Graphics.Shader;
+import Engine.Maths.Matrix4F;
 import Engine.Maths.Vector3F;
+import Engine.Objects.ProgOb;
+import Engine.io.Input.Actions;
 import Engine.io.Input.Callbacks;
 import Main.Main;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -32,10 +36,14 @@ public class Window {
     private static boolean isFS;
     private static boolean shouldClose;
 
-    private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
-    private static final Renderer renderer = new Renderer(shader);
-    private static final Mesh mesh = new Mesh(Main.vertices, Main.indices,
-            new Material(Main.textureFilePath));
+    private static String bgtP = Main.bgt1P;
+    private static int bgtN = 1;
+
+    private final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
+    private final Renderer renderer = new Renderer(this, shader);
+
+    public ProgOb progOb = new ProgOb(Main.pos, Main.rot, Main.scale, new Mesh(Main.vertices, Main.indices, new Material(bgtP)));
+    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.fov, (float) size.width / size.height, Main.near, Main.far);
 
     public Window(String title) {
         setWindowTitle(title);
@@ -75,13 +83,15 @@ public class Window {
         time = System.currentTimeMillis();
 
         //Create mesh
-        mesh.create();
+        progOb.mesh.create();
         shader.create();
     }
-
     public void update() {
+        //Program and Camera update
+        progOb = new ProgOb(Main.pos, Main.rot, Main.scale, progOb.mesh);
+        Actions.checkCamMoveKeys();
         //Render
-        renderer.renderMesh(mesh);
+        renderer.renderMesh(progOb);
         glfwSwapBuffers(window);
 
         //Window update
@@ -146,7 +156,7 @@ public class Window {
     }
 
     private static boolean isSgFS;
-    public void setPos(Point pos) {
+    public void setPos(@NotNull Point pos) {
         if (pos.equals(new Point()))
             if (isSgFS) lastPos = Window.pos;
             else pos = lastPos;
@@ -167,10 +177,22 @@ public class Window {
         GL11.glViewport(0, 0, size.width, size.height);
     }
 
+    public int getBgtN() {
+        return bgtN;
+    }
+    public void setBgtN(int bgtN) {
+        Window.bgtN = bgtN;
+    }
+    public void setBgtP(String bgtP) {
+        Window.bgtP = bgtP;
+        progOb.mesh = new Mesh(Main.vertices, Main.indices, new Material(bgtP));
+        progOb.mesh.create();
+    }
+
     public void destroy() {
         System.out.println("Close game!");
 
-        mesh.destroy();
+        progOb.mesh.destroy();
         shader.destroy();
         Callbacks.destroy();
 

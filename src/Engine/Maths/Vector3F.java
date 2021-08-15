@@ -11,4 +11,10 @@ public class Vector3F {
         this.y = y;
         this.z = z;
     }
+
+    public void add(Vector3F vector3F) {
+        x += vector3F.x;
+        y += vector3F.y;
+        z += vector3F.z;
+    }
 }

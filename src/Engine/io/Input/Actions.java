@@ -2,6 +2,7 @@ package Engine.io.Input;
 
 import Engine.Maths.Vector3F;
 import Engine.io.Window.Window;
+import Main.Main;
 
 import java.awt.*;
 
@@ -10,6 +11,32 @@ import static Main.Main.window;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Actions {
+    public static void checkCamMoveKeys() {
+        //Move camera
+        if (isKeyPressed(GLFW_KEY_W))
+            Main.pos.z -= Main.camMoveSpeed;
+        if (isKeyPressed(GLFW_KEY_S))
+            Main.pos.z += Main.camMoveSpeed;
+        if (isKeyPressed(GLFW_KEY_A))
+            Main.pos.y -= Main.camMoveSpeed;
+        if (isKeyPressed(GLFW_KEY_D))
+            Main.pos.y += Main.camMoveSpeed;
+
+        if (isKeyPressed(GLFW_KEY_SPACE))
+            Main.pos.x += Main.camMoveSpeed;
+        if (isKeyPressed(GLFW_KEY_LEFT_SHIFT))
+            Main.pos.x -= Main.camMoveSpeed;
+
+        if (isKeyPressed(GLFW_KEY_U))
+            Main.rot.x += Main.camRotSpeed;
+        if (isKeyPressed(GLFW_KEY_J))
+            Main.rot.x -= Main.camRotSpeed;
+        if (isKeyPressed(GLFW_KEY_H))
+            Main.rot.z -= Main.camRotSpeed;
+        if (isKeyPressed(GLFW_KEY_K))
+            Main.rot.z += Main.camRotSpeed;
+    }
+
     public static void keysChanged(int key, int action) {
         //Set ESC to close
         if (key == GLFW_KEY_ESCAPE ) {
@@ -47,12 +74,21 @@ public class Actions {
                         //Press "F3 + Control + Alt + H"
                         System.out.println("""
                             You pressed "F3 + Control + Alt + H"! Help menu:\s
+                            \s
                             Press F3 to open CMD print service.\s
                             Press F3 and press other key to print their scancode and states.\s
                             Press F3 and press mouse buttons to print their states.\s
                             Press F3 and move mouse to print mouse position.\s
                             Press F3 and turn mouseScroll to print mouseScroll state.\s
-                            Release F3 to close CMD print service.\s""");
+                            \s
+                            Press "F8 + C" to change background color(black or red).\s
+                            Press "F8 + T" to change background texture(bg1 or bg2).\s
+                            \s
+                            Release F3 to close CMD print service.\s
+                            \s
+                            \s
+                            \s
+                            \s""");
             }
         }
         //set F11 to setFullScreen
@@ -63,7 +99,9 @@ public class Actions {
             if (action != GLFW_RELEASE) {
                 if (action == GLFW_PRESS)
                     System.out.println("F8 was Pressed! Press \"F8 + C\" to " +
-                            "change background color!(Black or red)");
+                            "change background color!(black or red)\n" +
+                            "Press \"F8 + T\" to change background texture!" +
+                            "(bg1 or bg2)!");
             }
             if (action == GLFW_RELEASE)
                 System.out.println("F8 was Released!");
@@ -71,12 +109,27 @@ public class Actions {
         if (isKeyPressed(GLFW_KEY_F8)) {
             if (key == GLFW_KEY_C  &&  action == GLFW_PRESS)
                 if (Window.isBgcBlack()) {
-                    System.out.println("Change background to red!");
+                    System.out.println("Change background color to red!");
                     window.setBgc(new Vector3F(1.0f, 0.0f, 0.0f));
                 } else {
-                    System.out.println("Change background to black!");
+                    System.out.println("Change background color to black!");
                     window.setBgc(new Vector3F());
                 }
+
+            if (key == GLFW_KEY_T  &&  action == GLFW_PRESS) {
+                switch (window.getBgtN()) {
+                    case 1 -> {
+                        System.out.println("Change background texture to bg2!");
+                        window.setBgtP(Main.bgt2P);
+                        window.setBgtN(2);
+                    }
+                    case 2 -> {
+                        System.out.println("Change background texture to bg1!");
+                        window.setBgtP(Main.bgt1P);
+                        window.setBgtN(1);
+                    }
+                }
+            }
         }
     }
     public static void buttonsChanged(int button, int action) {

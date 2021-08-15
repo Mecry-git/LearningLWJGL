@@ -3,7 +3,7 @@ package Engine.Utils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ImageRotate {
+public class ImageFixer {
     public static Image rotateImage90(Image image) {
         BufferedImage bufferedimage = ImageToBufferedImage(image);
         int w = bufferedimage.getWidth();
