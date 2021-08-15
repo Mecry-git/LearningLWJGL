@@ -23,6 +23,7 @@ public class Matrix4F {
 
         return result;
     }
+    /*
     public static @NotNull Matrix4F view(@NotNull Vector3F pos, @NotNull Vector3F rot) {
         Vector3F neg = new Vector3F(-pos.x, -pos.y, -pos.z);
 
@@ -35,6 +36,7 @@ public class Matrix4F {
 
         return Matrix4F.multiply(traLTMat, rotMat);
     }
+     */ //View, I hate it!
 
     public static @NotNull Matrix4F identity() {
         Matrix4F result = new Matrix4F();

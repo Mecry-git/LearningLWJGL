@@ -8,9 +8,12 @@ out vec3 passCol;
 out vec2 passTex;
 
 uniform mat4 model;
+//uniform mat4 view;
 uniform mat4 prjtn;
 
 void main() {
+    //gl_Position = prjtn * view * model * vec4(pos, 1);
+    //I disabled the View, it's not good.
     gl_Position = prjtn * model * vec4(pos, 1);
     passCol = col;
     passTex = tex;

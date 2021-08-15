@@ -6,8 +6,7 @@ import Engine.Graphics.Renderer;
 import Engine.Graphics.Shader;
 import Engine.Maths.Matrix4F;
 import Engine.Maths.Vector3F;
-import Engine.Objects.ProgOb;
-import Engine.io.Input.Actions;
+import Engine.Objects.ProgObj;
 import Engine.io.Input.Callbacks;
 import Main.Main;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 import static Engine.io.Input.Callbacks.*;
+import static Main.Main.window;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Window {
@@ -35,6 +35,7 @@ public class Window {
     private static Vector3F bgc = new Vector3F();
     private static boolean isFS;
     private static boolean shouldClose;
+    private static boolean rotIsKey;
 
     private static String bgtP = Main.bgt1P;
     private static int bgtN = 1;
@@ -42,8 +43,8 @@ public class Window {
     private final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private final Renderer renderer = new Renderer(this, shader);
 
-    public ProgOb progOb = new ProgOb(Main.pos, Main.rot, Main.scale, new Mesh(Main.vertices, Main.indices, new Material(bgtP)));
-    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.fov, (float) size.width / size.height, Main.near, Main.far);
+    public ProgObj progObj = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, new Mesh(Main.vertices, Main.indices, new Material(bgtP)));
+    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov, (float) size.width / size.height, Main.camera.near, Main.camera.far);
 
     public Window(String title) {
         setWindowTitle(title);
@@ -83,15 +84,17 @@ public class Window {
         time = System.currentTimeMillis();
 
         //Create mesh
-        progOb.mesh.create();
+        progObj.mesh.create();
         shader.create();
+
+        glfwSetCursorPos(window, (double) size.width / 2, (double) size.height / 2);
     }
     public void update() {
         //Program and Camera update
-        progOb = new ProgOb(Main.pos, Main.rot, Main.scale, progOb.mesh);
-        Actions.checkCamMoveKeys();
+        progObj = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, progObj.mesh);
+        Main.camera.checkMoveKey();
         //Render
-        renderer.renderMesh(progOb);
+        renderer.renderMesh(progObj);
         glfwSwapBuffers(window);
 
         //Window update
@@ -103,13 +106,16 @@ public class Window {
 
         //Update callbacks
         Callbacks.updateCallbacks();
+
+        if (!rotIsKey) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 
     public void setWindowTitle(String title) {
         Window.title = title;
     }
 
-    public static boolean isBgcBlack() {
+    public boolean isBgcBlack() {
         return bgc.x == 0f  &&  bgc.y == 0f  &&  bgc.z == 0f;
     }
     public void setBgc(Vector3F bgc) {
@@ -126,13 +132,13 @@ public class Window {
     }
 
     private void setCallBacks() {
-        glfwSetKeyCallback(getWindow(), getKeyboardKeyCallback());
-        glfwSetCursorPosCallback(getWindow(), getCursorPosCallback());
-        glfwSetMouseButtonCallback(getWindow(), getMouseButtons());
-        glfwSetScrollCallback(getWindow(), getMouseScroll());
+        glfwSetKeyCallback(getWindowID(), getKeyboardKeyCallback());
+        glfwSetCursorPosCallback(getWindowID(), getCursorPosCallback());
+        glfwSetMouseButtonCallback(getWindowID(), getMouseButtons());
+        glfwSetScrollCallback(getWindowID(), getMouseScroll());
 
-        glfwSetWindowSizeCallback(getWindow(), getSizeCallback());
-        glfwSetWindowPosCallback(getWindow(), getPosCallback());
+        glfwSetWindowSizeCallback(getWindowID(), getSizeCallback());
+        glfwSetWindowPosCallback(getWindowID(), getPosCallback());
     }
 
     public boolean ifShouldClose() {
@@ -144,7 +150,7 @@ public class Window {
         shouldClose = isShouldClose;
     }
 
-    public long getWindow() {
+    public long getWindowID() {
         return window;
     }
 
@@ -176,6 +182,17 @@ public class Window {
         isFS = !isFS;
         GL11.glViewport(0, 0, size.width, size.height);
     }
+    public boolean isFS() {
+        return isFS;
+    }
+
+    public boolean isRotKey() {
+        return rotIsKey;
+    }
+    public void chRotFrom() {
+        rotIsKey = !rotIsKey;
+        if (!rotIsKey) glfwSetCursorPos(window, (double) size.width / 2, (double) size.height / 2);
+    }
 
     public int getBgtN() {
         return bgtN;
@@ -185,14 +202,14 @@ public class Window {
     }
     public void setBgtP(String bgtP) {
         Window.bgtP = bgtP;
-        progOb.mesh = new Mesh(Main.vertices, Main.indices, new Material(bgtP));
-        progOb.mesh.create();
+        progObj.mesh = new Mesh(Main.vertices, Main.indices, new Material(bgtP));
+        progObj.mesh.create();
     }
 
     public void destroy() {
         System.out.println("Close game!");
 
-        progOb.mesh.destroy();
+        progObj.mesh.destroy();
         shader.destroy();
         Callbacks.destroy();
 

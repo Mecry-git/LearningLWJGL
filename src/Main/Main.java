@@ -2,6 +2,7 @@ package Main;
 
 import Engine.Graphics.Vertex;
 import Engine.Maths.Vector3F;
+import Engine.Objects.CamObj;
 import Engine.io.Window.Init;
 import Engine.io.Window.Window;
 
@@ -22,14 +23,11 @@ public class Main implements Runnable {
     public static final String vertexFilePath = "/Shaders/MainVertex.glsl";
     public static final String fragmentFilePath = "/Shaders/MainFragment.glsl";
 
-    public static Vector3F pos = new Vector3F(0, 0, 1);
-    public static Vector3F rot = new Vector3F(0, 0, 0);
+    public static CamObj camera = new CamObj(new Vector3F(0, 0, 1),
+            new Vector3F(0, 0, 0), 70, 0.1f, 1000,
+            0.01f, 1);
+
     public static Vector3F scale = new Vector3F(1, 1, 1);
-    public static float camMoveSpeed = 0.01f;
-    public static float camRotSpeed = 1;
-    public static float fov = 70;
-    public static float near = 0.1f;
-    public static float far = 1000;
 
     public static Window window = new Window("LearningLWJGL Window");
 
