@@ -22,10 +22,10 @@ public class Main implements Runnable {
 
             0, 0,   0, 1,   1, 1,   1, 0
     });
-    public static final int[] indices = new int[] {
-            0, 1, 2,   0, 2, 3,
+    public static final int[] [] indices = new int[] [] {
+            {0, 1, 2,   0, 2, 3},
 
-            0, 1, 2,   0, 2, 3
+            {0, 1, 2,   0, 2, 3}
     };
     public static final String vertexFilePath = "/Shaders/MainVertex.glsl";
     public static final String fragmentFilePath = "/Shaders/MainFragment.glsl";

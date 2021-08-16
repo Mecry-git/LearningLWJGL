@@ -2,6 +2,7 @@ package Engine.Graphics;
 
 import Engine.Maths.Vector2F;
 import Engine.Maths.Vector3F;
+import org.jetbrains.annotations.NotNull;
 
 public class Vertex {
     public Vector3F pos, col;
@@ -16,33 +17,33 @@ public class Vertex {
         this.tex = tex;
     }
 
-    public float[] getPosFloatArray(Vertex[] vertexes) {
-        float[] fTargets = new float[vertexes.length * 3];
-        for (int i = 0; i < vertexes.length; i ++) {
-            fTargets[i * 3] = vertexes[i].pos.x;
-            fTargets[i * 3 + 1] = vertexes[i].pos.y;
-            fTargets[i * 3 + 2] = vertexes[i].pos.z;
-        }
+    public float[] getPosFloatArray(@NotNull Vertex vertex) {
+        float[] fTargets = new float[3];
+
+        fTargets[0] = vertex.pos.x;
+        fTargets[1] = vertex.pos.y;
+        fTargets[2] = vertex.pos.z;
+
         return fTargets;
     }
-    public float[] getColFloatArray(Vertex[] vertexes) {
-        float[] fTargets = new float[vertexes.length * 3];
-        for (int i = 0; i < vertexes.length; i ++) {
-            fTargets[i * 3] = vertexes[i].col.x;
-            fTargets[i * 3 + 1] = vertexes[i].col.y;
-            fTargets[i * 3 + 2] = vertexes[i].col.z;
-        }
+    public float[] getColFloatArray(@NotNull Vertex vertex) {
+        float[] fTargets = new float[3];
+
+        fTargets[0] = vertex.col.x;
+        fTargets[1] = vertex.col.y;
+        fTargets[2] = vertex.col.z;
+
         return fTargets;
     }
-    public float[] getTexFloatArray(Vertex[] vertexes) {
-        float[] fTargets = new float[vertexes.length * 2];
-        for (int i = 0; i < vertexes.length; i ++) {
-            fTargets[i * 2] = vertexes[i].tex.x;
-            fTargets[i * 2 + 1] = vertexes[i].tex.y;
-        }
+    public float[] getTexFloatArray(@NotNull Vertex vertex) {
+        float[] fTargets = new float[2];
+
+        fTargets[0] = vertex.tex.x;
+        fTargets[1] = vertex.tex.y;
+
         return fTargets;
     }
-    public Vertex[] toFloatArray(float[] poses, float[] cols, float[] tex) {
+    public Vertex[] toFloatArray(float @NotNull [] poses, float[] cols, float[] tex) {
         Vertex[] vTargets = new Vertex[poses.length / 3];
         for (int i = 0; i < vTargets.length; i ++) {
             vTargets[i] = new Vertex();

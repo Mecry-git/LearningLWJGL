@@ -40,16 +40,20 @@ public class Window {
     private final Renderer renderer = new Renderer(this, shader);
     private final Mesh[] meshes = new Mesh[Main.IMsNum];
     public ProgObj[] progObjs = new ProgObj[Main.IMsNum];
-    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov, (float) size.width / size.height, Main.camera.near, Main.camera.far);
+    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov,
+            (float) size.width / size.height, Main.camera.near, Main.camera.far);
 
     public Window(String title) {
         setWindowTitle(title);
 
         Main.IMs[0] = Main.IM_SIDE;
         Main.IMs[1] = Main.IM_TOP;
+
         for (int i = 0; i < Main.IMsNum; i ++) {
-            meshes[i] = new Mesh(Main.vertices, Main.indices, new Material(Main.IM_SIDE));
-            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
+            meshes[i] = new Mesh(Main.vertices[i], Main.indices[i],
+                    new Material(Main.IM_SIDE));
+            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot,
+                    Main.scale, meshes[i]);
         }
     }
 
