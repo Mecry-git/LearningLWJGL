@@ -17,30 +17,30 @@ public class Vertex {
         this.tex = tex;
     }
 
-    public float[] getPosFloatArray(@NotNull Vertex vertex) {
-        float[] fTargets = new float[3];
-
-        fTargets[0] = vertex.pos.x;
-        fTargets[1] = vertex.pos.y;
-        fTargets[2] = vertex.pos.z;
-
+    public float[] getPosFloatArray(Vertex @NotNull [] vertexes) {
+        float[] fTargets = new float[vertexes.length * 3];
+        for (int i = 0; i < vertexes.length; i ++) {
+            fTargets[i * 3] = vertexes[i].pos.x;
+            fTargets[i * 3 + 1] = vertexes[i].pos.y;
+            fTargets[i * 3 + 2] = vertexes[i].pos.z;
+        }
         return fTargets;
     }
-    public float[] getColFloatArray(@NotNull Vertex vertex) {
-        float[] fTargets = new float[3];
-
-        fTargets[0] = vertex.col.x;
-        fTargets[1] = vertex.col.y;
-        fTargets[2] = vertex.col.z;
-
+    public float[] getColFloatArray(Vertex @NotNull [] vertexes) {
+        float[] fTargets = new float[vertexes.length * 3];
+        for (int i = 0; i < vertexes.length; i ++) {
+            fTargets[i * 3] = vertexes[i].col.x;
+            fTargets[i * 3 + 1] = vertexes[i].col.y;
+            fTargets[i * 3 + 2] = vertexes[i].col.z;
+        }
         return fTargets;
     }
-    public float[] getTexFloatArray(@NotNull Vertex vertex) {
-        float[] fTargets = new float[2];
-
-        fTargets[0] = vertex.tex.x;
-        fTargets[1] = vertex.tex.y;
-
+    public float[] getTexFloatArray(Vertex @NotNull [] vertexes) {
+        float[] fTargets = new float[vertexes.length * 2];
+        for (int i = 0; i < vertexes.length; i ++) {
+            fTargets[i * 2] = vertexes[i].tex.x;
+            fTargets[i * 2 + 1] = vertexes[i].tex.y;
+        }
         return fTargets;
     }
     public Vertex[] toFloatArray(float @NotNull [] poses, float[] cols, float[] tex) {

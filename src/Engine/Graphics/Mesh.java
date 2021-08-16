@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL30.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public record Mesh(Vertex vertices, int[] indices, Material material) {
+public record Mesh(Vertex[] vertices, int[] indices, Material material) {
     public static int vao, pbo, cbo, tbo, ibo;
 
     public void create() {
@@ -19,15 +19,15 @@ public record Mesh(Vertex vertices, int[] indices, Material material) {
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
 
-        FloatBuffer posBuffer = MemoryUtil.memAllocFloat(3);
+        FloatBuffer posBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
         posBuffer.put(new Vertex().getPosFloatArray(vertices)).flip();
         pbo = storeData(posBuffer, 0, 3);
 
-        FloatBuffer colBuffer = MemoryUtil.memAllocFloat(3);
+        FloatBuffer colBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
         colBuffer.put(new Vertex().getColFloatArray(vertices)).flip();
         cbo = storeData(colBuffer, 1, 3);
 
-        FloatBuffer texBuffer = MemoryUtil.memAllocFloat(2);
+        FloatBuffer texBuffer = MemoryUtil.memAllocFloat(vertices.length * 2);
         texBuffer.put(new Vertex().getTexFloatArray(vertices)).flip();
         tbo = storeData(texBuffer, 2, 2);
 

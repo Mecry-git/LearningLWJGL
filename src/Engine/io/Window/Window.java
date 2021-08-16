@@ -38,22 +38,17 @@ public class Window {
 
     private final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private final Renderer renderer = new Renderer(this, shader);
-    private final Mesh[] meshes = new Mesh[Main.IMsNum];
-    public ProgObj[] progObjs = new ProgObj[Main.IMsNum];
-    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov,
-            (float) size.width / size.height, Main.camera.near, Main.camera.far);
+    private final Mesh[] meshes = new Mesh[Main.blocks.length * 6];
+    public ProgObj[] progObjs = new ProgObj[Main.blocks.length * 6];
+    public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov, (float) size.width / size.height, Main.camera.near, Main.camera.far);
 
     public Window(String title) {
         setWindowTitle(title);
 
-        Main.IMs[0] = Main.IM_SIDE;
-        Main.IMs[1] = Main.IM_TOP;
-
-        for (int i = 0; i < Main.IMsNum; i ++) {
-            meshes[i] = new Mesh(Main.vertices[i], Main.indices[i],
-                    new Material(Main.IM_SIDE));
-            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot,
-                    Main.scale, meshes[i]);
+        for (int i = 0; i < Main.blocks.length * 6; i ++) {
+            meshes[i] = new Mesh(Main.blocks[0].images[i].vertices,
+                    Main.blocks[0].images[i].indices, new Material(Main.blocks[0].images[i].pic));
+            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
         }
     }
 
@@ -91,7 +86,7 @@ public class Window {
         time = System.currentTimeMillis();
 
         //Create mesh
-        for (int i = 0; i < Main.IMsNum; i ++)
+        for (int i = 0; i < Main.blocks.length * 6; i ++)
             progObjs[i].mesh.create();
         shader.create();
 
@@ -99,7 +94,7 @@ public class Window {
     }
     public void update() {
         //Program and Camera update
-        for (int i = 0; i < Main.IMsNum; i ++) {
+        for (int i = 0; i < Main.blocks.length * 6; i ++) {
             progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
             //Renderer update
             renderer.renderMesh(progObjs[i]);
@@ -208,7 +203,7 @@ public class Window {
     public void destroy() {
         System.out.println("Close game!");
 
-        for (int i = 0; i < Main.IMsNum; i ++)
+        for (int i = 0; i < Main.blocks.length * 6; i ++)
             progObjs[i].mesh.destroy();
         shader.destroy();
         Callbacks.destroy();
