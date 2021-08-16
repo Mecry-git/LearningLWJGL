@@ -18,7 +18,6 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 import static Engine.io.Input.Callbacks.*;
-import static Main.Main.window;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Window {
@@ -37,17 +36,21 @@ public class Window {
     private static boolean shouldClose;
     private static boolean rotIsKey;
 
-    private static String bgtP = Main.bgt1P;
-    private static int bgtN = 1;
-
     private final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private final Renderer renderer = new Renderer(this, shader);
-
-    public ProgObj progObj = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, new Mesh(Main.vertices, Main.indices, new Material(bgtP)));
+    private final Mesh[] meshes = new Mesh[Main.IMsNum];
+    public ProgObj[] progObjs = new ProgObj[Main.IMsNum];
     public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov, (float) size.width / size.height, Main.camera.near, Main.camera.far);
 
     public Window(String title) {
         setWindowTitle(title);
+
+        Main.IMs[0] = Main.IM_SIDE;
+        Main.IMs[1] = Main.IM_TOP;
+        for (int i = 0; i < Main.IMsNum; i ++) {
+            meshes[i] = new Mesh(Main.vertices, Main.indices, new Material(Main.IM_SIDE));
+            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
+        }
     }
 
     public void create() {
@@ -84,17 +87,21 @@ public class Window {
         time = System.currentTimeMillis();
 
         //Create mesh
-        progObj.mesh.create();
+        for (int i = 0; i < Main.IMsNum; i ++)
+            progObjs[i].mesh.create();
         shader.create();
 
         glfwSetCursorPos(window, (double) size.width / 2, (double) size.height / 2);
     }
     public void update() {
         //Program and Camera update
-        progObj = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, progObj.mesh);
+        for (int i = 0; i < Main.IMsNum; i ++) {
+            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
+            //Renderer update
+            renderer.renderMesh(progObjs[i]);
+        }
         Main.camera.checkMoveKey();
         //Render
-        renderer.renderMesh(progObj);
         glfwSwapBuffers(window);
 
         //Window update
@@ -194,22 +201,11 @@ public class Window {
         if (!rotIsKey) glfwSetCursorPos(window, (double) size.width / 2, (double) size.height / 2);
     }
 
-    public int getBgtN() {
-        return bgtN;
-    }
-    public void setBgtN(int bgtN) {
-        Window.bgtN = bgtN;
-    }
-    public void setBgtP(String bgtP) {
-        Window.bgtP = bgtP;
-        progObj.mesh = new Mesh(Main.vertices, Main.indices, new Material(bgtP));
-        progObj.mesh.create();
-    }
-
     public void destroy() {
         System.out.println("Close game!");
 
-        progObj.mesh.destroy();
+        for (int i = 0; i < Main.IMsNum; i ++)
+            progObjs[i].mesh.destroy();
         shader.destroy();
         Callbacks.destroy();
 

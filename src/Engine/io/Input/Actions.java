@@ -25,6 +25,17 @@ public class Actions {
                 Main.camera.pos.x += Main.camera.camMoveSpeed;
             if (isKeyPressed(GLFW_KEY_LEFT_SHIFT))
                 Main.camera.pos.x -= Main.camera.camMoveSpeed;
+
+            if (window.isRotKey()) {
+                if (isKeyPressed(GLFW_KEY_U))
+                    Main.camera.rot.x += Main.camera.camRotSpeed * 2;
+                if (isKeyPressed(GLFW_KEY_J))
+                    Main.camera.rot.x -= Main.camera.camRotSpeed * 2;
+                if (isKeyPressed(GLFW_KEY_H))
+                    Main.camera.rot.z -= Main.camera.camRotSpeed * 2;
+                if (isKeyPressed(GLFW_KEY_K))
+                    Main.camera.rot.z += Main.camera.camRotSpeed * 2;
+            }
         } else {
             if (isKeyPressed(GLFW_KEY_W))
                 Main.camera.pos.z -= Main.camera.camMoveSpeed / 10;
@@ -38,17 +49,17 @@ public class Actions {
                 Main.camera.pos.x += Main.camera.camMoveSpeed / 10;
             if (isKeyPressed(GLFW_KEY_LEFT_SHIFT))
                 Main.camera.pos.x -= Main.camera.camMoveSpeed / 10;
-        }
 
-        if (window.isRotKey()) {
-            if (isKeyPressed(GLFW_KEY_U))
-                Main.camera.rot.x += Main.camera.camRotSpeed;
-            if (isKeyPressed(GLFW_KEY_J))
-                Main.camera.rot.x -= Main.camera.camRotSpeed;
-            if (isKeyPressed(GLFW_KEY_H))
-                Main.camera.rot.z -= Main.camera.camRotSpeed;
-            if (isKeyPressed(GLFW_KEY_K))
-                Main.camera.rot.z += Main.camera.camRotSpeed;
+            if (window.isRotKey()) {
+                if (isKeyPressed(GLFW_KEY_U))
+                    Main.camera.rot.x += Main.camera.camRotSpeed / 5;
+                if (isKeyPressed(GLFW_KEY_J))
+                    Main.camera.rot.x -= Main.camera.camRotSpeed / 5;
+                if (isKeyPressed(GLFW_KEY_H))
+                    Main.camera.rot.z -= Main.camera.camRotSpeed / 5;
+                if (isKeyPressed(GLFW_KEY_K))
+                    Main.camera.rot.z += Main.camera.camRotSpeed / 5;
+            }
         }
     }
 
@@ -98,7 +109,6 @@ public class Actions {
                             Press F3 and turn mouseScroll to print mouseScroll state.\s
                             \s
                             Press "F8 + C" to change background color(black or red).\s
-                            Press "F8 + T" to change background texture(bg1 or bg2).\s
                             \s
                             Press "Control + Alt + P" to change the way to change that
                              camera rotation(mouse or key).\s
@@ -120,9 +130,7 @@ public class Actions {
             if (action != GLFW_RELEASE) {
                 if (action == GLFW_PRESS)
                     System.out.println("F8 was Pressed! Press \"F8 + C\" to " +
-                            "change background color!(black or red)\n" +
-                            "Press \"F8 + T\" to change background texture!" +
-                            "(bg1 or bg2)!");
+                            "change background color!(black or red)!");
             }
             if (action == GLFW_RELEASE)
                 System.out.println("F8 was Released!");
@@ -136,21 +144,6 @@ public class Actions {
                     System.out.println("Change background color to black!");
                     window.setBgc(new Vector3F());
                 }
-
-            if (key == GLFW_KEY_T  &&  action == GLFW_PRESS) {
-                switch (window.getBgtN()) {
-                    case 1 -> {
-                        System.out.println("Change background texture to bg2!");
-                        window.setBgtP(Main.bgt2P);
-                        window.setBgtN(2);
-                    }
-                    case 2 -> {
-                        System.out.println("Change background texture to bg1!");
-                        window.setBgtP(Main.bgt1P);
-                        window.setBgtN(1);
-                    }
-                }
-            }
         }
 
         //Change the way to change that camera rotation
