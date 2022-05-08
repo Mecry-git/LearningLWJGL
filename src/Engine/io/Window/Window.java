@@ -8,6 +8,7 @@ import Engine.Maths.Matrix4F;
 import Engine.Maths.Vector3F;
 import Engine.Objects.ProgObj;
 import Engine.io.Input.Callbacks;
+import Engine.io.OutputPrint.Terminal;
 import Main.Main;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -202,7 +203,7 @@ public class Window {
     }
 
     public void destroy() {
-        System.out.println("Close game!");
+        Terminal.printCloseWords();
 
         for (int i = 0; i < Main.blocks.length * 6; i ++)
             progObjs[i].mesh.destroy();
