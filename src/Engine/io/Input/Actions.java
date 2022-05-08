@@ -13,8 +13,9 @@ public class Actions {
     public static void checkCamMoveKeys() {
         //Move camera
         if (!window.isFS()) {
-            if (isKeyPressed(GLFW_KEY_W))
+            if (isKeyPressed(GLFW_KEY_W)) {
                 Main.camera.pos.z -= Main.camera.camMoveSpeed;
+            }
             if (isKeyPressed(GLFW_KEY_S))
                 Main.camera.pos.z += Main.camera.camMoveSpeed;
             if (isKeyPressed(GLFW_KEY_A))
@@ -175,8 +176,14 @@ public class Actions {
             System.out.println("MousePosition: " + mousePos.x + " | " + mousePos.y);
 
         if (!window.isRotKey()) {
-            Main.camera.rot.z -= ((double) window.getSize().width / 2 - (double) Input.getMousePos().x) / 10;
-            Main.camera.rot.x += ((double) window.getSize().height / 2 - (double) Input.getMousePos().y) / 10;
+            Main.camera.rot.z -= ((double) window.getSize().width / 2 - (double) mousePos.x) / 10 * Main.camera.camRotSpeed;
+            double cursorXMoved = ((double) window.getSize().height / 2 - (double) mousePos.y) / 10 * Main.camera.camRotSpeed;
+
+            if (!((Main.camera.rot.x - cursorXMoved >= 90) ||
+                    (Main.camera.rot.x - cursorXMoved <= -90)))
+                Main.camera.rot.x += cursorXMoved;
+
+
             glfwSetCursorPos(window.getWindowID(), (double) window.getSize().width / 2, (double) window.getSize().height / 2);
         }
     }

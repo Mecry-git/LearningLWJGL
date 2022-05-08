@@ -45,11 +45,12 @@ public class Window {
     public Window(String title) {
         setWindowTitle(title);
 
-        for (int i = 0; i < Main.blocks.length * 6; i ++) {
-            meshes[i] = new Mesh(Main.blocks[0].images[i].vertices,
-                    Main.blocks[0].images[i].indices, new Material(Main.blocks[0].images[i].pic));
-            progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
-        }
+        for (int i = 0; i < Main.blocks.length; i ++)
+            for (int j = 0; j < Main.blocks.length * 6; j ++) {
+                meshes[j] = new Mesh(Main.blocks[0].images[j].vertices,
+                        Main.blocks[0].images[j].indices, new Material(Main.blocks[0].images[j].pic));
+                progObjs[j] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[j]);
+            }
     }
 
     public void create() {
@@ -99,7 +100,7 @@ public class Window {
             //Renderer update
             renderer.renderMesh(progObjs[i]);
         }
-        Main.camera.checkMoveKey();
+        Main.camera.update();
         //Render
         glfwSwapBuffers(window);
 

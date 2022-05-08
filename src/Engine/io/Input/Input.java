@@ -5,8 +5,8 @@ import java.awt.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Input {
-    private static final boolean[] keys = new boolean[GLFW_KEY_LAST];
-    private static final boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST];
+    private static final boolean[] keys = new boolean[GLFW_KEY_LAST + 1];
+    private static final boolean[] buttons = new boolean[GLFW_MOUSE_BUTTON_LAST + 1];
     private static Point mousePos = new Point(0, 0);
 
     public static void setKeys(int num, boolean key) {

@@ -20,7 +20,12 @@ public class CamObj {
         this.camRotSpeed = camRotSpeed;
     }
 
-    public void checkMoveKey() {
+    public void update() {
+        if (rot.y > 360) rot.y -= 360;
+        if (rot.y < -360) rot.y += 360;
+        if (rot.z > 360) rot.z -= 360;
+        if (rot.z < -360) rot.z += 360;
+
         Actions.checkCamMoveKeys();
     }
 }
