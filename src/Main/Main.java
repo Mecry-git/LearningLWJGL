@@ -1,7 +1,6 @@
 package Main;
 
 import Engine.Blocks.Block;
-import Engine.Blocks.Image;
 import Engine.Maths.Vector3F;
 import Engine.Objects.CamObj;
 import Engine.io.Window.Init;

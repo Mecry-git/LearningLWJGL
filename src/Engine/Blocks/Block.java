@@ -9,15 +9,15 @@ public class Block {
     public Block(Vector3F pos, String kind) {
         this.pos = pos;
         switch (kind) {
-            case "Grass_Block" :
+            case "Grass_Block" -> {
                 pics[0] = "/Textures/top.png";
                 pics[1] = "/Textures/side.png";
                 pics[2] = "/Textures/side.png";
                 pics[3] = "/Textures/side.png";
                 pics[4] = "/Textures/side.png";
                 pics[5] = "/Textures/bottom.png";
-                break;
-                //......
+            }
+            //......
         }
 
         images[0] = new Image(new Vector3F(pos.x + 0.5f, pos.y, pos.z), pics[0], 0);
