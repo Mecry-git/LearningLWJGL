@@ -1,5 +1,6 @@
 package Engine.io.Input;
 
+import Engine.io.OutputPrint.Terminal;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL11;
 
@@ -20,6 +21,7 @@ public class Callbacks {
 
     public static void initCallbacks() {
         updateCallbacks();
+        Terminal.init();
     }
     public static void updateCallbacks() {
         setSizeCallback(new GLFWWindowSizeCallback() {
