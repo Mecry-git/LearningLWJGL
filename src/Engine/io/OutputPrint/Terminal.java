@@ -1,5 +1,7 @@
 package Engine.io.OutputPrint;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 
 public interface Terminal {
@@ -67,10 +69,10 @@ public interface Terminal {
         System.out.println("Pressed ESC! Release it to close game!");
     }
 
-    static void printMousePositionState(Point mousePos) {
+    static void printMousePositionState(@NotNull Point mousePos) {
         System.out.println("MousePosition: " + mousePos.x + " | " + mousePos.y);
     }
-    static void printMouseScrollState(Point mouseScrollPos) {
+    static void printMouseScrollState(@NotNull Point mouseScrollPos) {
         if (mouseScrollPos.y > 0)
             System.out.println("MouseScroll turned up " +
                     mouseScrollPos.y + " point(s)!");

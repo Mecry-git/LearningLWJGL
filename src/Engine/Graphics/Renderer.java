@@ -3,7 +3,6 @@ package Engine.Graphics;
 import Engine.Maths.Matrix4F;
 import Engine.Objects.ProgObj;
 import Engine.io.Window.Window;
-import Main.Main;
 import org.jetbrains.annotations.NotNull;
 
 import static org.lwjgl.opengl.GL30.*;

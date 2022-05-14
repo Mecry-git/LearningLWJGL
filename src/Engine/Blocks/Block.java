@@ -6,9 +6,9 @@ public class Block {
     public Vector3F pos;
     public final Image[] images = new Image[6];
     public String[] pics = new String[6];
-    public Block(Vector3F pos, String kind) {
+    public Block(Vector3F pos, String type) {
         this.pos = pos;
-        switch (kind) {
+        switch (type) {
             case "Grass_Block" -> {
                 pics[0] = "/Textures/top.png";
                 pics[1] = "/Textures/side.png";
