@@ -37,17 +37,17 @@ public class Window {
     private static boolean shouldClose;
     private static boolean rotIsKey;
 
-    private final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
+    private static final Shader shader = new Shader(Main.vertexFilePath, Main.fragmentFilePath);
     private final Renderer renderer = new Renderer(this, shader);
-    private final Mesh[] meshes = new Mesh[Main.blocks.length * 6];
-    public ProgObj[] progObjs = new ProgObj[Main.blocks.length * 6];
+    private static final Mesh[] meshes = new Mesh[Main.blocks.length * 6];
+    public static ProgObj[] progObjs = new ProgObj[Main.blocks.length * 6];
     public Matrix4F prjtnMat = Matrix4F.prjtn(Main.camera.fov, (float) size.width / size.height, Main.camera.near, Main.camera.far);
 
     public Window(String title) {
         setWindowTitle(title);
 
         for (int i = 0; i < Main.blocks.length; i ++)
-            for (int j = 0; j < Main.blocks.length * 6; j ++) {
+            for (int j = 0; j < 6; j ++) {
                 meshes[j] = new Mesh(Main.blocks[0].images[j].vertices,
                         Main.blocks[0].images[j].indices, new Material(Main.blocks[0].images[j].pic));
                 progObjs[j] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[j]);
@@ -88,7 +88,7 @@ public class Window {
         time = System.currentTimeMillis();
 
         //Create mesh
-        for (int i = 0; i < Main.blocks.length * 6; i ++)
+        for (int i = 0; i < 6; i ++)
             progObjs[i].mesh.create();
         shader.create();
 
@@ -96,7 +96,7 @@ public class Window {
     }
     public void update() {
         //Program and Camera update
-        for (int i = 0; i < Main.blocks.length * 6; i ++) {
+        for (int i = 0; i < 6; i ++) {
             progObjs[i] = new ProgObj(Main.camera.pos, Main.camera.rot, Main.scale, meshes[i]);
             //Renderer update
             renderer.renderMesh(progObjs[i]);
@@ -205,7 +205,7 @@ public class Window {
     public void destroy() {
         Terminal.printCloseWords();
 
-        for (int i = 0; i < Main.blocks.length * 6; i ++)
+        for (int i = 0; i < 6; i ++)
             progObjs[i].mesh.destroy();
         shader.destroy();
         Callbacks.destroy();

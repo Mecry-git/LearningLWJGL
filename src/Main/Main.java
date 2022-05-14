@@ -11,7 +11,8 @@ public class Main implements Runnable {
     public static final String fragmentFilePath = "/Shaders/MainFragment.glsl";
 
     public static Block[] blocks = new Block[] {
-            new Block(new Vector3F(), "Grass_Block")
+            new Block(new Vector3F(0, 0, 0), "Grass_Block"),
+            new Block(new Vector3F(1, 0, 0), "Grass_Block")
     };
 
     public static CamObj camera = new CamObj(new Vector3F(0, 0, 5),

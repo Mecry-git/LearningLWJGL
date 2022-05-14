@@ -1,12 +1,13 @@
 package Engine.Blocks;
 
 import Engine.Maths.Vector3F;
+import org.jetbrains.annotations.NotNull;
 
 public class Block {
     public Vector3F pos;
     public final Image[] images = new Image[6];
     public String[] pics = new String[6];
-    public Block(Vector3F pos, String type) {
+    public Block(Vector3F pos, @NotNull String type) {
         this.pos = pos;
         switch (type) {
             case "Grass_Block" -> {
