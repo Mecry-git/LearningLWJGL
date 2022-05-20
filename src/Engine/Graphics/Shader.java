@@ -1,8 +1,8 @@
 package Engine.Graphics;
 
-import Engine.Maths.Matrix4F;
+import Engine.Maths.Matrix4F;/*
 import Engine.Maths.Vector2F;
-import Engine.Maths.Vector3F;
+import Engine.Maths.Vector3F;*/
 import Engine.Utils.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.MemoryUtil;
@@ -51,6 +51,7 @@ public record Shader(String vFP, String fFP) {
     public int getUniLoc(String name) {
         return glGetUniformLocation(pID, name);
     }
+    /*
     public void setUni(String name, float value) {
         glUniform1f(getUniLoc(name), value);
     }
@@ -65,7 +66,7 @@ public record Shader(String vFP, String fFP) {
     }
     public void setUni(String name, @NotNull Vector3F value) {
         glUniform3f(getUniLoc(name), value.x, value.y, value.z);
-    }
+    }*/
     public void setUni(String name, @NotNull Matrix4F value) {
         FloatBuffer matrix = MemoryUtil.memAllocFloat(Matrix4F.SIZE * Matrix4F.SIZE);
         matrix.put(value.getAll()).flip();

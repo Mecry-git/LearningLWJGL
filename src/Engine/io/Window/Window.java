@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.Objects;
 
 import static Engine.io.Input.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -124,7 +125,7 @@ public class Window {
     }
 
     public boolean isBgcBlack() {
-        return bgc.x == 0f  &&  bgc.y == 0f  &&  bgc.z == 0f;
+        return Objects.equals(bgc, new Vector3F());
     }
     public void setBgc(Vector3F bgc) {
         Window.bgc = bgc;

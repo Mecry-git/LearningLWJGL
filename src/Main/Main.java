@@ -1,6 +1,6 @@
 package Main;
 
-import Engine.Blocks.Block;
+import Engine.Scenes.Objects.Blocks.Block;
 import Engine.Maths.Vector3F;
 import Engine.Objects.CamObj;
 import Engine.io.Window.Init;
@@ -12,7 +12,7 @@ public class Main implements Runnable {
 
     public static Block[] blocks = new Block[] {
             new Block(new Vector3F(0, 0, 0), "Grass_Block"),
-            new Block(new Vector3F(1, 0, 0), "Grass_Block")
+            new Block(new Vector3F(1, 0, 0), "Dirt_Block")
     };
 
     public static CamObj camera = new CamObj(new Vector3F(0, 0, 5),

@@ -1,6 +1,7 @@
 package Engine.io.Input;
 
 import Engine.Maths.Vector3F;
+import Engine.Scenes.Objects.Cameras.Camera;
 import Engine.io.OutputPrint.Terminal;
 import Main.Main;
 
@@ -11,55 +12,56 @@ import static Main.Main.window;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Actions {
-    public static void checkCamMoveKeys() {
+
+    public static void checkCamMoveKeys(Camera camera) {
         //Move camera
         if (!window.isFS()) {
-            if (isKeyPressed(GLFW_KEY_W)) {
+            if (isKeyPressed(camera.getCamMovementKey(0))) {
                 Main.camera.pos.z -= Main.camera.camMoveSpeed;
             }
-            if (isKeyPressed(GLFW_KEY_S))
+            if (isKeyPressed(camera.getCamMovementKey(1)))
                 Main.camera.pos.z += Main.camera.camMoveSpeed;
-            if (isKeyPressed(GLFW_KEY_A))
+            if (isKeyPressed(camera.getCamMovementKey(2)))
                 Main.camera.pos.y -= Main.camera.camMoveSpeed;
-            if (isKeyPressed(GLFW_KEY_D))
+            if (isKeyPressed(camera.getCamMovementKey(3)))
                 Main.camera.pos.y += Main.camera.camMoveSpeed;
-            if (isKeyPressed(GLFW_KEY_SPACE))
+            if (isKeyPressed(camera.getCamMovementKey(5)))
                 Main.camera.pos.x += Main.camera.camMoveSpeed;
-            if (isKeyPressed(GLFW_KEY_LEFT_SHIFT))
+            if (isKeyPressed(camera.getCamMovementKey(4)))
                 Main.camera.pos.x -= Main.camera.camMoveSpeed;
 
             if (window.isRotKey()) {
-                if (isKeyPressed(GLFW_KEY_U))
+                if (isKeyPressed(camera.getCamMovementKey(6)))
                     Main.camera.rot.x += Main.camera.camRotSpeed * 2;
-                if (isKeyPressed(GLFW_KEY_J))
+                if (isKeyPressed(camera.getCamMovementKey(7)))
                     Main.camera.rot.x -= Main.camera.camRotSpeed * 2;
-                if (isKeyPressed(GLFW_KEY_H))
+                if (isKeyPressed(camera.getCamMovementKey(8)))
                     Main.camera.rot.z -= Main.camera.camRotSpeed * 2;
-                if (isKeyPressed(GLFW_KEY_K))
+                if (isKeyPressed(camera.getCamMovementKey(9)))
                     Main.camera.rot.z += Main.camera.camRotSpeed * 2;
             }
         } else {
-            if (isKeyPressed(GLFW_KEY_W))
+            if (isKeyPressed(camera.getCamMovementKey(0)))
                 Main.camera.pos.z -= Main.camera.camMoveSpeed / 10;
-            if (isKeyPressed(GLFW_KEY_S))
+            if (isKeyPressed(camera.getCamMovementKey(1)))
                 Main.camera.pos.z += Main.camera.camMoveSpeed / 10;
-            if (isKeyPressed(GLFW_KEY_A))
+            if (isKeyPressed(camera.getCamMovementKey(2)))
                 Main.camera.pos.y -= Main.camera.camMoveSpeed / 10;
-            if (isKeyPressed(GLFW_KEY_D))
+            if (isKeyPressed(camera.getCamMovementKey(3)))
                 Main.camera.pos.y += Main.camera.camMoveSpeed / 10;
-            if (isKeyPressed(GLFW_KEY_SPACE))
+            if (isKeyPressed(camera.getCamMovementKey(5)))
                 Main.camera.pos.x += Main.camera.camMoveSpeed / 10;
-            if (isKeyPressed(GLFW_KEY_LEFT_SHIFT))
+            if (isKeyPressed(camera.getCamMovementKey(4)))
                 Main.camera.pos.x -= Main.camera.camMoveSpeed / 10;
 
             if (window.isRotKey()) {
-                if (isKeyPressed(GLFW_KEY_U))
+                if (isKeyPressed(camera.getCamMovementKey(6)))
                     Main.camera.rot.x += Main.camera.camRotSpeed / 5;
-                if (isKeyPressed(GLFW_KEY_J))
+                if (isKeyPressed(camera.getCamMovementKey(7)))
                     Main.camera.rot.x -= Main.camera.camRotSpeed / 5;
-                if (isKeyPressed(GLFW_KEY_H))
+                if (isKeyPressed(camera.getCamMovementKey(8)))
                     Main.camera.rot.z -= Main.camera.camRotSpeed / 5;
-                if (isKeyPressed(GLFW_KEY_K))
+                if (isKeyPressed(camera.getCamMovementKey(9)))
                     Main.camera.rot.z += Main.camera.camRotSpeed / 5;
             }
         }

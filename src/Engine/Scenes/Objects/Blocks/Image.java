@@ -1,4 +1,4 @@
-package Engine.Blocks;
+package Engine.Scenes.Objects.Blocks;
 
 import Engine.Graphics.Vertex;
 import Engine.Maths.Vector3F;

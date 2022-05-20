@@ -1,11 +1,13 @@
 package Engine.Objects;
 
 import Engine.Maths.Vector3F;
+import Engine.Scenes.Objects.Cameras.Camera;
 import Engine.io.Input.Actions;
 
 public class CamObj {
     public Vector3F pos, rot;
     public float fov, near, far, camMoveSpeed, camRotSpeed;
+    public Camera camera;
 
     public CamObj(Vector3F pos, Vector3F rot, float fov, float near, float far,
                   float camMoveSpeed, float camRotSpeed) {
@@ -18,6 +20,8 @@ public class CamObj {
 
         this.camMoveSpeed = camMoveSpeed;
         this.camRotSpeed = camRotSpeed;
+
+        camera = new Camera(Camera.DefCamMovement);
     }
 
     public void update() {
@@ -26,6 +30,6 @@ public class CamObj {
         if (rot.z > 360) rot.z -= 360;
         if (rot.z < -360) rot.z += 360;
 
-        Actions.checkCamMoveKeys();
+        Actions.checkCamMoveKeys(camera);
     }
 }

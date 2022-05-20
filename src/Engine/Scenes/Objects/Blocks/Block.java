@@ -1,4 +1,4 @@
-package Engine.Blocks;
+package Engine.Scenes.Objects.Blocks;
 
 import Engine.Maths.Vector3F;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,15 @@ public class Block {
                 pics[4] = "/Textures/side.png";
                 pics[5] = "/Textures/bottom.png";
             }
-            //......
+            case "Dirt_Block" -> {
+                pics[0] = "/Textures/bottom.png";
+                pics[1] = "/Textures/bottom.png";
+                pics[2] = "/Textures/bottom.png";
+                pics[3] = "/Textures/bottom.png";
+                pics[4] = "/Textures/bottom.png";
+                pics[5] = "/Textures/bottom.png";
+            }
+            //...
         }
 
         images[0] = new Image(new Vector3F(pos.x + 0.5f, pos.y, pos.z), pics[0], 0);
