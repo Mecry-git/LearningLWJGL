@@ -1,6 +1,7 @@
 package Engine.Scenes.Objects.Cameras;
 
 import Engine.io.Input.Keys.KeySets;
+import org.jetbrains.annotations.NotNull;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -11,10 +12,11 @@ public class Camera {
             GLFW_KEY_U, GLFW_KEY_J, GLFW_KEY_H, GLFW_KEY_K
     });
 
-    private final KeySets camMovement;
+    private final KeySets camMovement = DefCamMovement;
 
-    public Camera(KeySets camMovement) {
-        this.camMovement = camMovement;
+    public Camera(@NotNull KeySets camMovement) {
+        for (int i = 0; i < camMovement.getKeyNLength(); i ++)
+            setCamMovementKey(i, camMovement.getKey(i));
     }
 
     public int getCamMovementKey(int index) {

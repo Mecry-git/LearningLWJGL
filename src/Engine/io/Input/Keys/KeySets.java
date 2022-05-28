@@ -10,6 +10,9 @@ public class KeySets {
     public int getKey(int index) {
         return keys[index];
     }
+    public int getKeyNLength() {
+        return keys.length;
+    }
     public void setKey(int index, int key) {
         this.keys[index] = key;
     }
